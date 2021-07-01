@@ -15,7 +15,7 @@ import view.interfaces.IUiModule;
 import java.awt.*;
 import java.util.Collection;
 import java.util.EnumMap;
-
+// test
 public class Main {
     public static void main(String[] args){
         PaintCanvasBase paintCanvas = new PaintCanvas();
