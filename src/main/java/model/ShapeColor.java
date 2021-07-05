@@ -8,7 +8,11 @@ public enum ShapeColor {
             return Color.BLACK;
         }
     },
-    BLUE,
+    BLUE {
+        public Color getColor(){
+            return Color.BLUE;
+        }
+    },
     CYAN,
     DARK_GRAY,
     GRAY,

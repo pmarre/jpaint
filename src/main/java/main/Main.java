@@ -1,9 +1,12 @@
 package main;
 
+import controller.DrawRectangle;
 import controller.IJPaintController;
 import controller.JPaintController;
 import model.ShapeColor;
 import model.ShapeType;
+import model.interfaces.IApplicationState;
+import model.interfaces.IShape;
 import model.persistence.ApplicationState;
 import view.gui.Gui;
 import view.gui.GuiWindow;
@@ -13,6 +16,9 @@ import view.interfaces.PaintCanvasBase;
 import view.interfaces.IUiModule;
 
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Collection;
 import java.util.EnumMap;
 // test
@@ -33,21 +39,42 @@ public class Main {
             e.printStackTrace();
         }
 
+
         // Filled in rectangle
         Graphics2D graphics2d = paintCanvas.getGraphics2D();
-        graphics2d.setColor(Color.GREEN);
-        graphics2d.fillRect(12, 13, 200, 400);
+        IShape iShape = new DrawRectangle(appState, paintCanvas);
+        paintCanvas.addMouseListener(new MouseAdapter () {
+           int[] start;
+           int[] end;
+            public void mousePressed(MouseEvent event) {
+                    int x = event.getX();
+                    int y = event.getY();
+                    start = iShape.getStartXY(x,y);
+            }
 
-        // Outlined rectangle
-        graphics2d.setStroke(new BasicStroke(5));
-        graphics2d.setColor(Color.BLUE);
-        graphics2d.drawRect(12, 13, 200, 400);
+            public void mouseReleased(MouseEvent event) {
+                    int x = event.getX();
+                    int y = event.getY();
+                   end = iShape.getEndXY(x, y);
+                    iShape.draw(graphics2d,start, end );
 
-        // Selected Shape
-        Stroke stroke = new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 1, new float[]{9}, 0);
-        graphics2d.setStroke(stroke);
-        graphics2d.setColor(Color.BLACK);
-        graphics2d.drawRect(7, 8, 210, 410);
+            }
+
+        });
+
+//        graphics2d.setColor(Color.GREEN);
+//        graphics2d.fillRect(12, 13, 200, 400);
+//
+//        // Outlined rectangle
+//        graphics2d.setStroke(new BasicStroke(5));
+//        graphics2d.setColor(Color.BLUE);
+//        graphics2d.drawRect(12, 13, 200, 400);
+//
+//        // Selected Shape
+//        Stroke stroke = new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 1, new float[]{9}, 0);
+//        graphics2d.setStroke(stroke);
+//        graphics2d.setColor(Color.BLACK);
+//        graphics2d.drawRect(7, 8, 210, 410);
 
         // end of example
     }
