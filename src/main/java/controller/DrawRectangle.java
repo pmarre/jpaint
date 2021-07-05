@@ -31,11 +31,28 @@ public class DrawRectangle implements IShape {
     }
 
     public void draw(Graphics2D g, int[] start, int[] end) {
-        int width = end[0] - start[0];
-        int height = end[1] - start[1];
+        int width, startx;
+        int height, starty;
 
-        //g.drawRect(rec[0],rec[1],rec[2],rec[3]);
-        g.fillRect(start[0],start[1],width,height);
+        // set width and starting X point
+        if (end[0] > start[0]) {
+            width = end[0] - start[0];
+            startx = start[0];
+        } else {
+            width = start[0] - end[0];
+            startx = end[0];
+        }
+
+        // set height and starting Y point
+        if (end[1] > start[1]) {
+            height = end[1] - start[1];
+            starty = start[1];
+        } else {
+            height = start[1] - end[1];
+            starty = end[1];
+        }
+
+        g.fillRect(startx,starty,width,height);
         System.out.println(app_state.getActiveMouseMode());
     }
 }

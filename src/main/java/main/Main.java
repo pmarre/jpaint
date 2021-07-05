@@ -7,6 +7,7 @@ import model.ShapeColor;
 import model.ShapeType;
 import model.interfaces.IApplicationState;
 import model.interfaces.IShape;
+import model.interfaces.IUndoable;
 import model.persistence.ApplicationState;
 import view.gui.Gui;
 import view.gui.GuiWindow;
@@ -22,6 +23,8 @@ import java.awt.event.MouseListener;
 import java.util.Collection;
 import java.util.EnumMap;
 // test
+
+// import controller.CommandHistory;
 public class Main {
     public static void main(String[] args){
         PaintCanvasBase paintCanvas = new PaintCanvas();
@@ -55,8 +58,9 @@ public class Main {
             public void mouseReleased(MouseEvent event) {
                     int x = event.getX();
                     int y = event.getY();
-                   end = iShape.getEndXY(x, y);
-                    iShape.draw(graphics2d,start, end );
+                    end = iShape.getEndXY(x, y);
+                    iShape.draw(graphics2d,start, end);
+                  //  undoStack.add();
 
             }
 
