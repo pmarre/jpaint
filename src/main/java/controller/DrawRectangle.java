@@ -14,25 +14,29 @@ import view.interfaces.PaintCanvasBase;
 public class DrawRectangle implements IShape {
     IApplicationState app_state;
     PaintCanvasBase paintcanvas;
+    Point start;
+    Point end;
 
-    public DrawRectangle(IApplicationState app, PaintCanvasBase p) {
+    public DrawRectangle(IApplicationState app, PaintCanvasBase p, Point start, Point end) {
         this.app_state = app;
         this.paintcanvas = p;
+        this.start = start;
+        this.end = end;
     }
 
-    public int[] getStartXY(int x, int y){
-        int[] xy = {x, y};
-        return xy;
-    }
+//    public int[] getStartXY(int x, int y){
+//        int[] xy = {x, y};
+//        return xy;
+//    }
+//
+//    public int[] getEndXY(int x, int y){
+//        int[] xy = {x, y};
+//        return xy;
+//    }
 
-    public int[] getEndXY(int x, int y){
-        int[] xy = {x, y};
-        return xy;
-    }
-
-    public void draw(Graphics2D g, int[] start, int[] end) {
-        int width, startx;
-        int height, starty;
+    public void draw(PaintCanvasBase g, double[] start, double[] end) {
+        double width, startx;
+        double height, starty;
 
         // set width and starting X point
         if (end[0] > start[0]) {
@@ -52,7 +56,13 @@ public class DrawRectangle implements IShape {
             starty = end[1];
         }
 
-        g.fillRect(startx,starty,width,height);
-        System.out.println(app_state.getActiveMouseMode());
+
+      Graphics2D pc = g.getGraphics2D();
+        int x = (int) startx;
+        int y = (int) starty;
+        int w = (int) width;
+        int h = (int) height;
+        pc.fillRect(x,y,w,h);
+
     }
 }

@@ -3,11 +3,9 @@ package main;
 import controller.DrawRectangle;
 import controller.IJPaintController;
 import controller.JPaintController;
-import model.ShapeColor;
-import model.ShapeType;
-import model.interfaces.IApplicationState;
+import controller.MouseHandler;
+import model.MouseMode;
 import model.interfaces.IShape;
-import model.interfaces.IUndoable;
 import model.persistence.ApplicationState;
 import view.gui.Gui;
 import view.gui.GuiWindow;
@@ -19,9 +17,6 @@ import view.interfaces.IUiModule;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.Collection;
-import java.util.EnumMap;
 // test
 
 // import controller.CommandHistory;
@@ -42,29 +37,37 @@ public class Main {
             e.printStackTrace();
         }
 
+        // PaintMouseAdaptor mouse = new PaintMouseAdaptor();
 
         // Filled in rectangle
         Graphics2D graphics2d = paintCanvas.getGraphics2D();
-        IShape iShape = new DrawRectangle(appState, paintCanvas);
-        paintCanvas.addMouseListener(new MouseAdapter () {
-           int[] start;
-           int[] end;
-            public void mousePressed(MouseEvent event) {
-                    int x = event.getX();
-                    int y = event.getY();
-                    start = iShape.getStartXY(x,y);
-            }
+        // IShape iShape = new DrawRectangle(appState, paintCanvas);
 
-            public void mouseReleased(MouseEvent event) {
-                    int x = event.getX();
-                    int y = event.getY();
-                    end = iShape.getEndXY(x, y);
-                    iShape.draw(graphics2d,start, end);
-                  //  undoStack.add();
+        MouseHandler mh = new MouseHandler(appState, paintCanvas);
+        paintCanvas.addMouseListener(mh);
 
-            }
-
-        });
+//        paintCanvas.addMouseListener(new MouseAdapter () {
+//           int[] start;
+//           int[] end;
+//            public void mousePressed(MouseEvent event) {
+//
+//                    int x = event.getX();
+//                    int y = event.getY();
+//                    start = iShape.getStartXY(x,y);
+//            }
+//
+//            public void mouseReleased(MouseEvent event) {
+//                    int x = event.getX();
+//                    int y = event.getY();
+//                    end = iShape.getEndXY(x, y);
+//                    System.out.println(appState.getActiveMouseMode() + ", " + appState.getActiveShapeType());
+//                    if (appState.getActiveMouseMode().equals(MouseMode.DRAW)) iShape.draw(graphics2d, start, end);
+//
+//                  //  undoStack.add();
+//
+//            }
+//
+//        });
 
 //        graphics2d.setColor(Color.GREEN);
 //        graphics2d.fillRect(12, 13, 200, 400);
