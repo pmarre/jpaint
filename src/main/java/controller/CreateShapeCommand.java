@@ -10,7 +10,7 @@ import view.interfaces.PaintCanvasBase;
 
 import java.awt.*;
 import java.lang.*;
-import java.util.ArrayList;
+import java.util.*;
 
 public class CreateShapeCommand implements ICommand, IUndoable {
     ApplicationState appState;
@@ -19,6 +19,9 @@ public class CreateShapeCommand implements ICommand, IUndoable {
     Point end;
     ShapeList shapelist;
     ArrayList<CreateShapeCommand> sl;
+    Stack<CreateShapeCommand> undoStack = new Stack<CreateShapeCommand>();
+    Stack<CreateShapeCommand> redoStack = new Stack<CreateShapeCommand>();
+    CreateShapeCommand csc;
 
 
     public CreateShapeCommand( ApplicationState appState, PaintCanvasBase pc, Point start, Point end, ShapeList sl) {
@@ -30,9 +33,14 @@ public class CreateShapeCommand implements ICommand, IUndoable {
     }
 
 
-    public void execute() {
-        // sl = shapelist.getShapes();
+    public void update(ShapeList shapelist) {
+        sl = shapelist.getShapes();
+        for (CreateShapeCommand shape : sl) {
+            shape.execute();
+        }
+    }
 
+    public void execute() {
             CommandHistory.add(this);
             ShapeType curr_shape = appState.getActiveShapeType();
             Graphics2D g = pc.getGraphics2D();
@@ -84,12 +92,27 @@ public class CreateShapeCommand implements ICommand, IUndoable {
 
 
 
-
+    @Override
     public void undo() {
         System.out.println("undo");
+        sl = shapelist.getShapes();
+        if (sl.size() == 0) return;
+        if (sl.size() > 0) {
+           CreateShapeCommand c = sl.get(sl.size()-1);
+           shapelist.removeShape(c);
+           redoStack.push(c);
+           c.update(shapelist);
+           pc.repaint();
+        }
     }
 
+    @Override
     public void redo() {
         System.out.println("redo");
+        if (redoStack.size() == 0) return;
+
+        CreateShapeCommand c = redoStack.pop();
+        shapelist.addShape(c);
+        c.update(shapelist);
     }
 }

@@ -1,6 +1,7 @@
 package controller;
 
 import model.MouseMode;
+import model.interfaces.IUndoable;
 import model.persistence.ApplicationState;
 import view.gui.PaintCanvas;
 import view.interfaces.PaintCanvasBase;
@@ -42,6 +43,7 @@ public class MouseHandler extends MouseAdapter {
                 CreateShapeCommand csc = new CreateShapeCommand(appState, paintCanvas, start, end, shapeList);
                 shapeList.addShape(csc);
                 csc.execute();
+
                 break;
 
             case MOVE:
@@ -57,8 +59,4 @@ public class MouseHandler extends MouseAdapter {
         }
 
     }
-
-
-
-
 }

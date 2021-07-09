@@ -42,33 +42,10 @@ public class Main {
 
         // Filled in rectangle
         Graphics2D graphics2d = paintCanvas.getGraphics2D();
-        // IShape iShape = new DrawRectangle(appState, paintCanvas);
-
         MouseHandler mh = new MouseHandler(appState, paintCanvas, graphics2d, shapelist);
         paintCanvas.addMouseListener(mh);
+        paintCanvas.repaint();
 
-//        paintCanvas.addMouseListener(new MouseAdapter () {
-//           int[] start;
-//           int[] end;
-//            public void mousePressed(MouseEvent event) {
-//
-//                    int x = event.getX();
-//                    int y = event.getY();
-//                    start = iShape.getStartXY(x,y);
-//            }
-//
-//            public void mouseReleased(MouseEvent event) {
-//                    int x = event.getX();
-//                    int y = event.getY();
-//                    end = iShape.getEndXY(x, y);
-//                    System.out.println(appState.getActiveMouseMode() + ", " + appState.getActiveShapeType());
-//                    if (appState.getActiveMouseMode().equals(MouseMode.DRAW)) iShape.draw(graphics2d, start, end);
-//
-//                  //  undoStack.add();
-//
-//            }
-//
-//        });
 
 //        graphics2d.setColor(Color.GREEN);
 //        graphics2d.fillRect(12, 13, 200, 400);
