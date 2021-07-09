@@ -1,6 +1,6 @@
 package model.interfaces;
 
 public interface IUndoable {
-    boolean undo();
-    boolean redo();
+    void undo();
+    void redo();
 }

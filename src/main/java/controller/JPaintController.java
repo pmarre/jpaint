@@ -1,6 +1,7 @@
 package controller;
 
 import model.interfaces.IApplicationState;
+import model.interfaces.ICommand;
 import view.EventName;
 import view.interfaces.IEventCallback;
 import view.interfaces.IUiModule;
@@ -25,5 +26,22 @@ public class JPaintController implements IJPaintController {
         uiModule.addEvent(EventName.CHOOSE_SECONDARY_COLOR, () -> applicationState.setActiveSecondaryColor());
         uiModule.addEvent(EventName.CHOOSE_SHADING_TYPE, () -> applicationState.setActiveShadingType());
         uiModule.addEvent(EventName.CHOOSE_MOUSE_MODE, () -> applicationState.setActiveStartAndEndPointMode());
+        uiModule.addEvent(EventName.UNDO, () -> UndoHandler());
+        uiModule.addEvent(EventName.REDO, () -> RedoHandler());
     }
+    public void UndoHandler() {
+        ICommand undo = new UndoCommand();
+        undo.execute();
+
+    }
+
+    public void RedoHandler() {
+        ICommand redo = new RedoCommand();
+        redo.execute();
+
+    }
+
 }
+
+
+

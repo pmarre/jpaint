@@ -1,10 +1,11 @@
 package main;
 
-import controller.DrawRectangle;
+//import controller.DrawRectangle;
 import controller.IJPaintController;
 import controller.JPaintController;
 import controller.MouseHandler;
 import model.MouseMode;
+import model.ShapeList;
 import model.interfaces.IShape;
 import model.persistence.ApplicationState;
 import view.gui.Gui;
@@ -28,7 +29,7 @@ public class Main {
         ApplicationState appState = new ApplicationState(uiModule);
         IJPaintController controller = new JPaintController(uiModule, appState);
         controller.setup();
-
+        ShapeList shapelist = new ShapeList();
         // For example purposes only; remove all lines below from your final project.
 
         try {
@@ -43,7 +44,7 @@ public class Main {
         Graphics2D graphics2d = paintCanvas.getGraphics2D();
         // IShape iShape = new DrawRectangle(appState, paintCanvas);
 
-        MouseHandler mh = new MouseHandler(appState, paintCanvas);
+        MouseHandler mh = new MouseHandler(appState, paintCanvas, graphics2d, shapelist);
         paintCanvas.addMouseListener(mh);
 
 //        paintCanvas.addMouseListener(new MouseAdapter () {

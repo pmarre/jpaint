@@ -1,68 +1,58 @@
 package controller;
 
-import main.Main;
+import model.ShapeColor;
+import model.ShapeList;
 import model.interfaces.*;
-import view.gui.*;
-import model.persistence.*;
 import view.interfaces.PaintCanvasBase;
 
 import java.awt.*;
-import java.awt.event.MouseListener;
-import view.interfaces.PaintCanvasBase;
+import java.util.ArrayList;
 
-
-public class DrawRectangle implements IShape {
+public class DrawRectangle implements IShape, IUndoable {
     IApplicationState app_state;
     PaintCanvasBase paintcanvas;
-    Point start;
-    Point end;
+    double x;
+    double y;
+    double w;
+    double h;
+    ShapeList sl;
+    ShapeColor color;
 
-    public DrawRectangle(IApplicationState app, PaintCanvasBase p, Point start, Point end) {
+    public DrawRectangle(IApplicationState app, PaintCanvasBase p, double x, double y, double w, double h, ShapeList shapes) {
         this.app_state = app;
         this.paintcanvas = p;
-        this.start = start;
-        this.end = end;
+        this.x = x;
+        this.y = y;
+        this.w = w;
+        this.h = h;
+        this.sl = shapes;
+        this.color = app.getActivePrimaryColor();
     }
 
-//    public int[] getStartXY(int x, int y){
-//        int[] xy = {x, y};
-//        return xy;
-//    }
-//
-//    public int[] getEndXY(int x, int y){
-//        int[] xy = {x, y};
-//        return xy;
-//    }
+    public void draw(Graphics2D g2d) {
+        System.out.println(color);
+        Color c = Color.getColor(color.name());
 
-    public void draw(PaintCanvasBase g, double[] start, double[] end) {
-        double width, startx;
-        double height, starty;
+        Graphics2D g = paintcanvas.getGraphics2D();
+        int _x = (int) x;
+        int _y = (int) y;
+        int _w = (int) w;
+        int _h = (int) h;
+        g.setColor(c);
 
-        // set width and starting X point
-        if (end[0] > start[0]) {
-            width = end[0] - start[0];
-            startx = start[0];
-        } else {
-            width = start[0] - end[0];
-            startx = end[0];
-        }
+        g.fillRect(_x,_y,_w,_h);
+    }
 
-        // set height and starting Y point
-        if (end[1] > start[1]) {
-            height = end[1] - start[1];
-            starty = start[1];
-        } else {
-            height = start[1] - end[1];
-            starty = end[1];
-        }
+    public void undo() {
+//        if (sl.size() != 0) {
+//            sl.remove(sl.size() - 1);
+//            return true;
+//        }
 
+    }
 
-      Graphics2D pc = g.getGraphics2D();
-        int x = (int) startx;
-        int y = (int) starty;
-        int w = (int) width;
-        int h = (int) height;
-        pc.fillRect(x,y,w,h);
+    public void redo() {
+//        sl.add(this);
 
     }
 }

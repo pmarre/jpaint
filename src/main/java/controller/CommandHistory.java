@@ -1,7 +1,11 @@
 package controller;
 
 import java.util.Stack;
+
+import model.interfaces.IShape;
 import model.interfaces.IUndoable;
+
+
 
 class CommandHistory {
 
@@ -17,6 +21,7 @@ class CommandHistory {
 		boolean result = !undoStack.empty();
 		if (result) {
 			IUndoable c = undoStack.pop();
+			System.out.println(c);
 			redoStack.push(c);
 			c.undo();
 		}
@@ -27,6 +32,7 @@ class CommandHistory {
 		boolean result = !redoStack.empty();
 		if (result) {
 			IUndoable c = redoStack.pop();
+			System.out.println(c);
 			undoStack.push(c);
 			c.redo();
 		}
