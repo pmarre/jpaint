@@ -37,8 +37,25 @@ public class DrawRectangle implements IShape {
         int _y = (int) y;
         int _w = (int) w;
         int _h = (int) h;
-        g2d.setColor(c);
-        g2d.fillRect(_x,_y,_w,_h);
+        Color primaryColor = app_state.getActivePrimaryColor().getColor();
+        Color secondaryColor = app_state.getActiveSecondaryColor().getColor();
+        switch (app_state.getActiveShapeShadingType()) {
+            case FILLED_IN:
+                g.setColor(primaryColor);
+                g.fillRect(_x, _y, _w, _h);
+                break;
+            case OUTLINE:
+                g.setStroke(new BasicStroke(3));
+                g.setColor(secondaryColor);
+                g.drawRect(_x, _y, _w, _h);
+                break;
+            case OUTLINE_AND_FILLED_IN:
+                g.setColor(primaryColor);
+                g.fillRect(_x, _y, _w, _h);
+                g.setStroke(new BasicStroke(3));
+                g.setColor(secondaryColor);
+                g.drawRect(_x, _y, _w, _h);
+                break;
+        }
     }
-
 }

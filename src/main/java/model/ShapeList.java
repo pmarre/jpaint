@@ -15,7 +15,7 @@ public class ShapeList {
 
     public void addShape(CreateShapeCommand shape) {
         shapeList.add(shape);
-        System.out.println("Added: " + shape);
+        System.out.println("Added to shapelist: " + shape);
     }
 
     public void removeShape(CreateShapeCommand shape) {

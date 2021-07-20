@@ -1,5 +1,6 @@
 package controller;
 
+import model.ShapeInfo;
 import model.ShapeType;
 import model.ShapeList;
 import model.interfaces.ICommand;
@@ -38,6 +39,14 @@ public class CreateShapeCommand implements ICommand, IUndoable {
         for (CreateShapeCommand shape : sl) {
             shape.execute();
         }
+    }
+
+    public Point getStart() {
+        return start.getLocation();
+    }
+
+    public Point getEnd() {
+        return end.getLocation();
     }
 
     public void execute() {
@@ -80,7 +89,8 @@ public class CreateShapeCommand implements ICommand, IUndoable {
                     break;
 
                 case TRIANGLE:
-                    System.out.println("drawing triangle"); // Need to look up shape
+                    IShape tri = new DrawTriangle(appState, pc, x, y, width, height, shapelist);
+                    tri.draw(g);
                     break;
 
                 default:
@@ -110,9 +120,9 @@ public class CreateShapeCommand implements ICommand, IUndoable {
     public void redo() {
         System.out.println("redo");
         if (redoStack.size() == 0) return;
-
         CreateShapeCommand c = redoStack.pop();
         shapelist.addShape(c);
         c.update(shapelist);
+        pc.repaint();
     }
 }

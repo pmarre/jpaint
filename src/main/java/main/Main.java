@@ -42,9 +42,10 @@ public class Main {
 
         // Filled in rectangle
         Graphics2D graphics2d = paintCanvas.getGraphics2D();
+       // (Graphics2D) graphic.drawRect(10,10,10,10);
         MouseHandler mh = new MouseHandler(appState, paintCanvas, graphics2d, shapelist);
         paintCanvas.addMouseListener(mh);
-        paintCanvas.repaint();
+
 
 
 //        graphics2d.setColor(Color.GREEN);

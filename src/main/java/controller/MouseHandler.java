@@ -1,11 +1,13 @@
 package controller;
 
 import model.MouseMode;
+import model.ShapeInfo;
 import model.interfaces.IUndoable;
 import model.persistence.ApplicationState;
 import view.gui.PaintCanvas;
 import view.interfaces.PaintCanvasBase;
 import model.ShapeList;
+import model.interfaces.ICommand;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -18,6 +20,7 @@ public class MouseHandler extends MouseAdapter {
     Graphics2D g;
     ShapeList shapeList;
     ArrayList<CreateShapeCommand> sl;
+    ICommand cmd;
 
     public MouseHandler(ApplicationState appState, PaintCanvasBase paintCanvas, Graphics2D g, ShapeList sl) {
         shapeList = new ShapeList();
@@ -35,28 +38,33 @@ public class MouseHandler extends MouseAdapter {
 
     public void mouseReleased(MouseEvent event) {
         end = event.getPoint();
-        PaintCanvasBase pc = new PaintCanvas();
         MouseMode MM = appState.getActiveMouseMode();
-
+        ShapeInfo shapeInfo = new ShapeInfo(appState.getActivePrimaryColor(),
+                appState.getActiveSecondaryColor(),
+                appState.getActiveShapeType(),
+                appState.getActiveShapeShadingType());
         switch (MM) {
             case DRAW:
+                cmd = new CreateShapeCommand(appState, paintCanvas, start, end, shapeList);
                 CreateShapeCommand csc = new CreateShapeCommand(appState, paintCanvas, start, end, shapeList);
                 shapeList.addShape(csc);
-                csc.execute();
-
+                CommandHistory.add(csc);
                 break;
 
             case MOVE:
+                cmd = new MoveCommand(sl, start, end, shapeInfo);
                 System.out.println("Mouse in move mode");
                 break;
 
             case SELECT:
+                cmd = new SelectCommand(start, end, paintCanvas, appState, shapeList);
                 System.out.println("Mouse in select mode");
                 break;
 
             default:
                 throw new IllegalStateException("No mouse selected");
         }
+        cmd.execute();
 
     }
 }

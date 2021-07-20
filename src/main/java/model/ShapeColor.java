@@ -3,69 +3,50 @@ package model;
 import java.awt.*;
 
 public enum ShapeColor {
-    BLACK {
-        public Color getColor(){
-            return Color.BLACK;
-        }
-    },
-    BLUE {
-        public Color getColor(){
-            return Color.BLUE;
-        }
-    },
-    CYAN {
-        public Color getColor(){
-            return Color.CYAN;
-        }
-    },
-    DARK_GRAY {
-        public Color getColor(){
-            return Color.DARK_GRAY;
-        }
-    },
-    GRAY {
-        public Color getColor(){
-            return Color.GRAY;
-        }
-    },
-    GREEN {
-        public Color getColor(){
-            return Color.GREEN;
-        }
-    },
-    LIGHT_GRAY {
-        public Color getColor(){
-            return Color.LIGHT_GRAY;
-        }
-    },
-    MAGENTA {
-        public Color getColor(){
-            return Color.MAGENTA;
-        }
-    },
-    ORANGE {
-        public Color getColor(){
-            return Color.ORANGE;
-        }
-    },
-    PINK {
-        public Color getColor(){
-            return Color.PINK;
-        }
-    },
-    RED {
-        public Color getColor(){
-            return Color.RED;
-        }
-    },
-    WHITE {
-        public Color getColor(){
-            return Color.WHITE;
-        }
-    },
-    YELLOW {
-        public Color getColor(){
-            return Color.YELLOW;
+    BLACK,
+    BLUE,
+    CYAN,
+    DARK_GRAY,
+    GRAY,
+    GREEN,
+    LIGHT_GRAY,
+    MAGENTA,
+    ORANGE,
+    PINK,
+    RED,
+    WHITE,
+    YELLOW;
+
+    public Color getColor() {
+        switch(this) {
+            case BLACK:
+                return Color.BLACK;
+            case BLUE:
+                return Color.BLUE;
+            case CYAN:
+                return Color.CYAN;
+            case DARK_GRAY:
+                return Color.DARK_GRAY;
+            case GRAY:
+                return Color.GRAY;
+            case GREEN:
+                return Color.GREEN;
+            case LIGHT_GRAY:
+                return Color.LIGHT_GRAY;
+            case MAGENTA:
+                return Color.MAGENTA;
+            case ORANGE:
+                return Color.ORANGE;
+            case PINK:
+                return Color.PINK;
+            case RED:
+                return Color.RED;
+            case WHITE:
+                return Color.WHITE;
+            case YELLOW:
+                return Color.YELLOW;
+            default:
+                throw new IllegalArgumentException("Please add a color");
         }
     }
 }
