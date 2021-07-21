@@ -21,13 +21,15 @@ public class MouseHandler extends MouseAdapter {
     ShapeList shapeList;
     ArrayList<CreateShapeCommand> sl;
     ICommand cmd;
+    ShapeList selected;
 
-    public MouseHandler(ApplicationState appState, PaintCanvasBase paintCanvas, Graphics2D g, ShapeList sl) {
+    public MouseHandler(ApplicationState appState, PaintCanvasBase paintCanvas, Graphics2D g, ShapeList sl, ShapeList selected) {
         shapeList = new ShapeList();
         this.appState = appState;
         this.paintCanvas = paintCanvas;
         this.g = g;
         this.shapeList = sl;
+        this.selected = selected;
     }
 
     Point start, end;
@@ -48,23 +50,24 @@ public class MouseHandler extends MouseAdapter {
                 cmd = new CreateShapeCommand(appState, paintCanvas, start, end, shapeList);
                 CreateShapeCommand csc = new CreateShapeCommand(appState, paintCanvas, start, end, shapeList);
                 shapeList.addShape(csc);
-                CommandHistory.add(csc);
+                //CommandHistory.add(csc);
                 break;
 
             case MOVE:
-                cmd = new MoveCommand(sl, start, end, shapeInfo);
+                cmd = new MoveCommand(selected, start, end, shapeInfo, shapeList, paintCanvas, appState);
                 System.out.println("Mouse in move mode");
                 break;
 
             case SELECT:
-                cmd = new SelectCommand(start, end, paintCanvas, appState, shapeList);
+                cmd = new SelectCommand(selected, start, end, paintCanvas, appState, shapeList);
                 System.out.println("Mouse in select mode");
                 break;
 
             default:
                 throw new IllegalStateException("No mouse selected");
         }
-        cmd.execute();
+
+       cmd.execute();
 
     }
 }

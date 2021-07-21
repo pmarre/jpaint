@@ -49,6 +49,8 @@ public class CreateShapeCommand implements ICommand, IUndoable {
         return end.getLocation();
     }
 
+
+
     public void execute() {
             CommandHistory.add(this);
             ShapeType curr_shape = appState.getActiveShapeType();
@@ -101,6 +103,10 @@ public class CreateShapeCommand implements ICommand, IUndoable {
     }
 
 
+    public Point[] getXY() {
+        Point[] xy = {start, end};
+        return xy;
+    }
 
     @Override
     public void undo() {

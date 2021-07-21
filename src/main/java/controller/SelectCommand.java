@@ -21,14 +21,15 @@ public class SelectCommand implements ICommand {
     double bottom_x = -1;
     double top_y = -1;
     double bottom_y = -1;
-    ArrayList<CreateShapeCommand> l = new ArrayList<CreateShapeCommand>();
+    ShapeList selected;
 
-    public SelectCommand (Point start, Point end, PaintCanvasBase pc, ApplicationState state, ShapeList shapeList) {
+    public SelectCommand (ShapeList selected, Point start, Point end, PaintCanvasBase pc, ApplicationState state, ShapeList shapeList) {
         this.start = start;
         this.end = end;
         this.pc = pc;
         this.state = state;
         this.shapeList = shapeList;
+        this.selected = selected;
     }
 
 
@@ -42,7 +43,7 @@ public class SelectCommand implements ICommand {
                     shape.getEnd().getY() > start.getY() &&
                     shape.getStart().getY() < end.getY()) {
                 System.out.println("Collision");
-                l.add(shape);
+                selected.addShape(shape);
 
                 if (shape.getStart().getX() >= top_x) {
                     top_x = shape.getStart().getX();
@@ -63,19 +64,21 @@ public class SelectCommand implements ICommand {
                 System.out.println(bottom_x + " " + bottom_y + " " + top_x + " " + top_y);
 
             } else {
-                l.clear();
+                for (CreateShapeCommand s : selected.getShapes()) {
+                    selected.removeShape(s);
+                }
             }
         }
 
-        int x = (int) top_x;
-        int y = (int) top_y;
-        int w = (int) (top_x - bottom_x);
-        int h = (int) (top_y - bottom_y);
+//        int x = (int) top_x;
+//        int y = (int) top_y;
+//        int w = (int) (top_x - bottom_x);
+//        int h = (int) (top_y - bottom_y);
 
-       pc.getGraphics2D().drawRect(x,y,w,h);
-        System.out.println("rect");
+       //pc.getGraphics2D().drawRect(x,y,w,h);
+        //System.out.println("rect");
         int count = 0;
-        for (CreateShapeCommand s : l ) {
+        for (CreateShapeCommand s : selected.getShapes() ) {
             count++;
         }
         System.out.println("shapes selected: " + count);

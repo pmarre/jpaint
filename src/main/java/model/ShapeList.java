@@ -15,13 +15,16 @@ public class ShapeList {
 
     public void addShape(CreateShapeCommand shape) {
         shapeList.add(shape);
+        for (CreateShapeCommand s : shapeList) {
+            s.execute();
+        }
         System.out.println("Added to shapelist: " + shape);
     }
 
     public void removeShape(CreateShapeCommand shape) {
         shapeList.remove(shape);
-        for (CreateShapeCommand c : shapeList) {
-            c.execute();
+        for (CreateShapeCommand s : shapeList) {
+            s.execute();
         }
         System.out.println("Removed: " + shape);
     }
