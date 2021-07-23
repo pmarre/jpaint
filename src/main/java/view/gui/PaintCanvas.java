@@ -18,7 +18,8 @@ public class PaintCanvas extends PaintCanvasBase {
      * It you want to force a paint event, call aPaintCanvas.repaint()
      */
     public void paint(Graphics g) {
-        super.paint(g);
+        Graphics2D g2d = (Graphics2D) g;
+        super.paint(g2d);
 
         System.out.println("Time to repaint");
     }
