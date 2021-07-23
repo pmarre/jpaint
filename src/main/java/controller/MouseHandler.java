@@ -41,15 +41,14 @@ public class MouseHandler extends MouseAdapter {
     public void mouseReleased(MouseEvent event) {
         end = event.getPoint();
         MouseMode MM = appState.getActiveMouseMode();
-        ShapeInfo shapeInfo = new ShapeInfo(appState.getActivePrimaryColor(),
-                appState.getActiveSecondaryColor(),
-                appState.getActiveShapeType(),
-                appState.getActiveShapeShadingType());
+        ShapeInfo shapeInfo = new ShapeInfo(appState, paintCanvas, start, end, shapeList);
         switch (MM) {
             case DRAW:
-                cmd = new CreateShapeCommand(appState, paintCanvas, start, end, shapeList);
-                CreateShapeCommand csc = new CreateShapeCommand(appState, paintCanvas, start, end, shapeList);
+                cmd = new CreateShapeCommand(appState, paintCanvas, start, end, shapeList, shapeInfo);
+                CreateShapeCommand csc = new CreateShapeCommand(appState, paintCanvas, start, end, shapeList, shapeInfo);
+                shapeList.registerObserver(csc);
                 shapeList.addShape(csc);
+
                 //CommandHistory.add(csc);
                 break;
 
@@ -67,7 +66,7 @@ public class MouseHandler extends MouseAdapter {
                 throw new IllegalStateException("No mouse selected");
         }
 
-       cmd.execute();
+        cmd.execute();
 
     }
 }

@@ -8,7 +8,7 @@ import view.interfaces.PaintCanvasBase;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class DrawRectangle implements IShape {
+public class DrawRectangleStrategy implements IShape {
     IApplicationState app_state;
     PaintCanvasBase paintcanvas;
     double x;
@@ -18,7 +18,7 @@ public class DrawRectangle implements IShape {
     ShapeList sl;
     ShapeColor color;
 
-    public DrawRectangle(IApplicationState app, PaintCanvasBase p, double x, double y, double w, double h, ShapeList shapes) {
+    public DrawRectangleStrategy(IApplicationState app, PaintCanvasBase p, double x, double y, double w, double h, ShapeList shapes) {
         this.app_state = app;
         this.paintcanvas = p;
         this.x = x;

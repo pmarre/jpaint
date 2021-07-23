@@ -45,7 +45,7 @@ public class MoveCommand implements ICommand, IUndoable {
             xy[0].translate(deltaX, deltaY);
             xy[1].translate(deltaX, deltaY);
 
-            CreateShapeCommand shape = new CreateShapeCommand(state, pc, xy[0], xy[1], sl);
+            CreateShapeCommand shape = new CreateShapeCommand(state, pc, xy[0], xy[1], sl, shapeInfo);
 
             sl.removeShape(s);
             sl.addShape(shape);

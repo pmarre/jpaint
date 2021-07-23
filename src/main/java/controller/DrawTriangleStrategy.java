@@ -8,7 +8,7 @@ import model.ShapeList;
 
 import java.awt.*;
 
-public class DrawTriangle implements IShape {
+public class DrawTriangleStrategy implements IShape {
     ApplicationState appState;
     PaintCanvasBase pc;
     int x;
@@ -17,7 +17,7 @@ public class DrawTriangle implements IShape {
     int height;
     ShapeList shapelist;
 
-    public DrawTriangle(ApplicationState appState, PaintCanvasBase pc, double x, double y, double width, double height, ShapeList shapelist) {
+    public DrawTriangleStrategy(ApplicationState appState, PaintCanvasBase pc, double x, double y, double width, double height, ShapeList shapelist) {
         this.appState = appState;
         this.pc = pc;
         this.x = (int) x;

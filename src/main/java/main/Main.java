@@ -1,6 +1,6 @@
 package main;
 
-//import controller.DrawRectangle;
+//import controller.DrawRectangleStrategy;
 import controller.IJPaintController;
 import controller.JPaintController;
 import controller.MouseHandler;

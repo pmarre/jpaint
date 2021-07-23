@@ -7,7 +7,7 @@ import view.interfaces.*;
 
 import java.awt.*;
 
-public class DrawEllipse implements IShape {
+public class DrawEllipseStrategy implements IShape {
 IApplicationState app_state;
         PaintCanvasBase paintcanvas;
         double x;
@@ -15,7 +15,7 @@ IApplicationState app_state;
         double w;
         double h;
 
-public DrawEllipse(IApplicationState app, PaintCanvasBase p, double x, double y, double w, double h) {
+public DrawEllipseStrategy(IApplicationState app, PaintCanvasBase p, double x, double y, double w, double h) {
         this.app_state = app;
         this.paintcanvas = p;
         this.x = x;
