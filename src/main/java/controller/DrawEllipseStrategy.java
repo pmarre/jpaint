@@ -25,7 +25,6 @@ public DrawEllipseStrategy(IApplicationState app, PaintCanvasBase p, double x, d
         }
 
 public void draw(Graphics2D g2d) {
-        Graphics2D g = paintcanvas.getGraphics2D();
         int _x = (int) x;
         int _y = (int) y;
         int _w = (int) w;
@@ -34,20 +33,20 @@ public void draw(Graphics2D g2d) {
         Color secondaryColor = app_state.getActiveSecondaryColor().getColor();
         switch(app_state.getActiveShapeShadingType()) {
                 case FILLED_IN:
-                        g.setColor(primaryColor);
-                        g.fillOval(_x,_y,_w,_h);
+                        g2d.setColor(primaryColor);
+                        g2d.fillOval(_x,_y,_w,_h);
                         break;
                 case OUTLINE:
-                        g.setStroke(new BasicStroke(3));
-                        g.setColor(secondaryColor);
-                        g.drawOval(_x,_y,_w,_h);
+                        g2d.setStroke(new BasicStroke(3));
+                        g2d.setColor(secondaryColor);
+                        g2d.drawOval(_x,_y,_w,_h);
                         break;
                 case OUTLINE_AND_FILLED_IN:
-                        g.setColor(primaryColor);
-                        g.fillOval(_x,_y,_w,_h);
-                        g.setStroke(new BasicStroke(3));
-                        g.setColor(secondaryColor);
-                        g.drawOval(_x,_y,_w,_h);
+                        g2d.setColor(primaryColor);
+                        g2d.fillOval(_x,_y,_w,_h);
+                        g2d.setStroke(new BasicStroke(3));
+                        g2d.setColor(secondaryColor);
+                        g2d.drawOval(_x,_y,_w,_h);
                         break;
                 default:
                         throw new IllegalArgumentException("Please select a valid option.");

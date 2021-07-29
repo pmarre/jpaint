@@ -25,7 +25,6 @@ public class CreateTriangleCommand implements ICommand, IUndoable, IShape {
 
     @Override
     public void execute() {
-        Graphics2D g = pc.getGraphics2D();
         double[] start1 = {start.getX(), start.getY()};
         double[] end1 = {end.getX(), end.getY()};
         double width, height, x, y;

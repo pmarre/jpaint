@@ -32,7 +32,6 @@ public class DrawRectangleStrategy implements IShape {
     public void draw(Graphics2D g2d) {
         color = app_state.getActivePrimaryColor();
         Color c = Color.getColor(color.name());
-        Graphics2D g = paintcanvas.getGraphics2D();
         int _x = (int) x;
         int _y = (int) y;
         int _w = (int) w;
@@ -41,20 +40,20 @@ public class DrawRectangleStrategy implements IShape {
         Color secondaryColor = app_state.getActiveSecondaryColor().getColor();
         switch (app_state.getActiveShapeShadingType()) {
             case FILLED_IN:
-                g.setColor(primaryColor);
-                g.fillRect(_x, _y, _w, _h);
+                g2d.setColor(primaryColor);
+                g2d.fillRect(_x, _y, _w, _h);
                 break;
             case OUTLINE:
-                g.setStroke(new BasicStroke(3));
-                g.setColor(secondaryColor);
-                g.drawRect(_x, _y, _w, _h);
+                g2d.setStroke(new BasicStroke(3));
+                g2d.setColor(secondaryColor);
+                g2d.drawRect(_x, _y, _w, _h);
                 break;
             case OUTLINE_AND_FILLED_IN:
-                g.setColor(primaryColor);
-                g.fillRect(_x, _y, _w, _h);
-                g.setStroke(new BasicStroke(3));
-                g.setColor(secondaryColor);
-                g.drawRect(_x, _y, _w, _h);
+                g2d.setColor(primaryColor);
+                g2d.fillRect(_x, _y, _w, _h);
+                g2d.setStroke(new BasicStroke(3));
+                g2d.setColor(secondaryColor);
+                g2d.drawRect(_x, _y, _w, _h);
                 break;
         }
     }

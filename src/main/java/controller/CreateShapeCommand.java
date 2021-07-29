@@ -54,10 +54,9 @@ public class CreateShapeCommand implements ICommand, IUndoable {
 
 
     public void execute() {
-            CommandHistory.add(this);
 
             ShapeType curr_shape = appState.getActiveShapeType();
-            Graphics2D g = pc.getGraphics2D();
+            Graphics2D g =pc.getGraphics2D();
             double[] start1 = {start.getX(), start.getY()};
             double[] end1 = {end.getX(), end.getY()};
             double width, height, x, y;
@@ -101,7 +100,8 @@ public class CreateShapeCommand implements ICommand, IUndoable {
 
             shape.draw(g);
             System.out.println("drawing a " + appState.getActiveShapeType());
-
+            //pc.repaint();
+            CommandHistory.add(this);
     }
 
 
@@ -114,23 +114,25 @@ public class CreateShapeCommand implements ICommand, IUndoable {
     public void undo() {
         System.out.println("undo");
         sl = shapelist.getShapes();
+        System.out.println(sl.size());
         if (sl.size() == 0) return;
         pc.repaint();
-        if (sl.size() > 0) {
-           CreateShapeCommand c = sl.get(sl.size()-1);
-           shapelist.removeShape(c);
-           redoStack.push(c);
-           c.update();
-        }
+       CreateShapeCommand c = sl.get(sl.size()-1);
+       shapelist.removeShape(c);
+       redoStack.add(c);
+          // c.update();
+
+        System.out.println(sl.size());
     }
 
     @Override
     public void redo() {
         System.out.println("redo");
         if (redoStack.size() == 0) return;
+        //pc.repaint();
         CreateShapeCommand c = redoStack.pop();
         shapelist.addShape(c);
         c.update();
-        pc.repaint();
+
     }
 }
