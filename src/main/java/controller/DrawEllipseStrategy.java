@@ -15,16 +15,8 @@ IApplicationState app_state;
         double w;
         double h;
 
-public DrawEllipseStrategy(IApplicationState app, PaintCanvasBase p, double x, double y, double w, double h) {
-        this.app_state = app;
-        this.paintcanvas = p;
-        this.x = x;
-        this.y = y;
-        this.w = w;
-        this.h = h;
-        }
-
-public void draw(Graphics2D g2d) {
+        @Override
+public void draw(Graphics2D g2d, CreateShapeCommand csc) {
         int _x = (int) x;
         int _y = (int) y;
         int _w = (int) w;

@@ -17,8 +17,8 @@ public class ShapeInfo {
     public PaintCanvasBase pc;
 
 
-    public ShapeInfo(ApplicationState state, PaintCanvasBase pc, Point start,
-                     Point end, ShapeList sl ) {
+    public ShapeInfo(ApplicationState state, Point start,
+                     Point end) {
         this.primaryColor = state.getActivePrimaryColor();
         this.secondaryColor = state.getActiveSecondaryColor();
         this.shading = state.getActiveShapeShadingType();

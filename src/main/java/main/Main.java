@@ -39,8 +39,8 @@ public class Main {
         }
 
         Graphics2D graphics2d = paintCanvas.getGraphics2D();
-        MouseHandler mh = new MouseHandler(appState, paintCanvas, graphics2d, shapelist, selectedShapes);
+        MouseHandler mh = new MouseHandler(appState, paintCanvas);
         paintCanvas.addMouseListener(mh);
-
+        paintCanvas.repaint();
     }
 }

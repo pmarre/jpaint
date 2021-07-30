@@ -83,7 +83,7 @@ public class CreateShapeCommand implements ICommand, IUndoable {
             IShape shape;
             switch (curr_shape) {
                 case ELLIPSE:
-                    shape = new DrawEllipseStrategy(appState, pc, x, y, width, height);
+                    shape = new DrawEllipseStrategy();
                     break;
 
                 case RECTANGLE:

@@ -20,16 +20,16 @@ public class MouseHandler extends MouseAdapter {
     Graphics2D g;
     ShapeList shapeList;
     ArrayList<CreateShapeCommand> sl;
-    ICommand cmd;
+    DrawShapeCommand cmd;
     ShapeList selected;
 
-    public MouseHandler(ApplicationState appState, PaintCanvasBase paintCanvas, Graphics2D g, ShapeList sl, ShapeList selected) {
+    public MouseHandler(ApplicationState appState, PaintCanvasBase paintCanvas) {
         shapeList = new ShapeList();
         this.appState = appState;
         this.paintCanvas = paintCanvas;
-        this.g = g;
-        this.shapeList = sl;
-        this.selected = selected;
+//        this.g = g;
+//        this.shapeList = sl;
+//        this.selected = selected;
     }
 
     Point start, end;
@@ -41,10 +41,12 @@ public class MouseHandler extends MouseAdapter {
     public void mouseReleased(MouseEvent event) {
         end = event.getPoint();
         MouseMode MM = appState.getActiveMouseMode();
-        ShapeInfo shapeInfo = new ShapeInfo(appState, paintCanvas, start, end, shapeList);
+        ShapeInfo shapeInfo = new ShapeInfo(appState, start, end);
+
         switch (MM) {
             case DRAW:
-                cmd = new CreateShapeCommand(appState, paintCanvas, start, end, shapeList, shapeInfo);
+                cmd = new DrawShapeCommand(appState, paintCanvas, start, end, shapeList);
+                //cmd = new CreateShapeCommand(appState, paintCanvas, start, end, shapeList, shapeInfo);
                 CreateShapeCommand csc = new CreateShapeCommand(appState, paintCanvas, start, end, shapeList, shapeInfo);
                 //paintCanvas.repaint();
                 shapeList.registerObserver(csc);
@@ -54,12 +56,12 @@ public class MouseHandler extends MouseAdapter {
                 break;
 
             case MOVE:
-                cmd = new MoveCommand(selected, start, end, shapeInfo, shapeList, paintCanvas, appState);
+               // cmd = new MoveCommand(selected, start, end, shapeInfo, shapeList, paintCanvas, appState);
                 System.out.println("Mouse in move mode");
                 break;
 
             case SELECT:
-                cmd = new SelectCommand(selected, start, end, paintCanvas, appState, shapeList);
+             //   cmd = new SelectCommand(selected, start, end, paintCanvas, appState, shapeList);
                 System.out.println("Mouse in select mode");
                 break;
 
