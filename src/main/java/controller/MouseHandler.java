@@ -25,6 +25,7 @@ public class MouseHandler extends MouseAdapter {
 
     public MouseHandler(ApplicationState appState, PaintCanvasBase paintCanvas) {
         shapeList = new ShapeList();
+        selected = new ShapeList();
         this.appState = appState;
         this.paintCanvas = paintCanvas;
 //        this.g = g;
@@ -82,12 +83,14 @@ public class MouseHandler extends MouseAdapter {
                 break;
 
             case MOVE:
-               // cmd = new MoveCommand(selected, start, end, shapeInfo, shapeList, paintCanvas, appState);
+                MoveCommand m = new MoveCommand(start, end, selected, shapeList, shapeInfo);
+                m.execute();
                 System.out.println("Mouse in move mode");
                 break;
 
             case SELECT:
-             //   cmd = new SelectCommand(selected, start, end, paintCanvas, appState, shapeList);
+                SelectCommand c = new SelectCommand(selected, start, end, paintCanvas, appState, shapeList);
+                c.execute();
                 System.out.println("Mouse in select mode");
                 break;
 

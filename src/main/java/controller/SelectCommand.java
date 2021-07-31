@@ -64,9 +64,11 @@ public class SelectCommand implements ICommand {
                 System.out.println(bottom_x + " " + bottom_y + " " + top_x + " " + top_y);
 
             } else {
+                //System.out.println(selected.getShapes().size());
                 for (CreateShapeCommand s : selected.getShapes()) {
                     selected.removeShape(s);
                 }
+                System.out.println("Selected: " + selected.getShapes().size());
             }
         }
 
