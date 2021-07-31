@@ -26,7 +26,7 @@ public class DrawShapeCommand implements IObserver {
         this.start = start;
         this.end = end;
         this.pc = pc;
-        this.g2d = (Graphics2D) pc.getGraphics();
+        this.g2d =  pc.getGraphics2D();
         this.shapeList = shapeList;
     }
 
@@ -47,7 +47,6 @@ public class DrawShapeCommand implements IObserver {
                 throw new IllegalArgumentException("Add shape");
         }
         shape.draw(g2d, csc);
-
 
     }
 

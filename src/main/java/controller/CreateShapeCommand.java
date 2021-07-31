@@ -27,6 +27,7 @@ public class CreateShapeCommand implements ICommand, IUndoable {
 
 
     public CreateShapeCommand( ApplicationState appState, PaintCanvasBase pc, Point start, Point end, ShapeList sl, ShapeInfo si) {
+
         this.appState = appState;
         this.pc = pc;
         this.start = start;
@@ -35,12 +36,16 @@ public class CreateShapeCommand implements ICommand, IUndoable {
         this.shapeInfo = si;
     }
 
+// THIS MAY NEED TO BE REMOVED:
 
     public void update() {
-        //pc.repaint();
-        for (CreateShapeCommand shape : shapelist.getShapes()) {
-            shape.execute();
-        }
+      DrawShapeCommand ds = new DrawShapeCommand(appState, pc, start, end, shapelist);
+     // pc.repaint();
+      ds.update();
+
+//        for (CreateShapeCommand shape : shapelist.getShapes()) {
+//            //shape.execute();
+//        }
     }
 
     public Point getStart() {
@@ -83,25 +88,30 @@ public class CreateShapeCommand implements ICommand, IUndoable {
             IShape shape;
             switch (curr_shape) {
                 case ELLIPSE:
-                    shape = new DrawEllipseStrategy();
+                    DrawEllipseStrategy ds =  new DrawEllipseStrategy();
+                    //ds.draw(g, csc);
                     break;
 
                 case RECTANGLE:
-                    shape = new DrawRectangleStrategy(appState, pc, x, y, width, height, shapelist);
+                   // shape = new DrawRectangleStrategy(appState, pc, x, y, width, height, shapelist);
                     break;
 
                 case TRIANGLE:
-                    shape = new DrawTriangleStrategy(appState, pc, x, y, width, height, shapelist);
+                   // shape = new DrawTriangleStrategy(appState, pc, x, y, width, height, shapelist);
                     break;
 
                 default:
                     throw new IllegalStateException("No shape selected");
             }
 
-            shape.draw(g);
+          //  shape.draw(g, shape);
             System.out.println("drawing a " + appState.getActiveShapeType());
             //pc.repaint();
-            CommandHistory.add(this);
+
+      // THIS CAUSES AN ENDLESS LOOP:
+       // CreateShapeCommand cs = new CreateShapeCommand(appState, pc, start, end, shapelist, shapeInfo);
+       // shapelist.addShape(cs);
+        CommandHistory.add(this);
     }
 
 
@@ -132,7 +142,7 @@ public class CreateShapeCommand implements ICommand, IUndoable {
         //pc.repaint();
         CreateShapeCommand c = redoStack.pop();
         shapelist.addShape(c);
-        c.update();
+       // c.update();
 
     }
 }

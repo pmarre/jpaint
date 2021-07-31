@@ -1,6 +1,7 @@
 package controller;
 
 import model.ShapeColor;
+import model.ShapeInfo;
 import model.interfaces.IShape;
 import model.persistence.ApplicationState;
 import view.interfaces.PaintCanvasBase;
@@ -17,26 +18,19 @@ public class DrawTriangleStrategy implements IShape {
     int height;
     ShapeList shapelist;
 
-    public DrawTriangleStrategy(ApplicationState appState, PaintCanvasBase pc, double x, double y, double width, double height, ShapeList shapelist) {
-        this.appState = appState;
-        this.pc = pc;
-        this.x = (int) x;
-        this.y = (int) y;
-        this.width = (int) width;
-        this.height = (int) height;
-        this.shapelist = shapelist;
-    }
+    public void draw(Graphics2D g2d, CreateShapeCommand csc){
+      ShapeInfo si = csc.shapeInfo;
+      x = (int) si.x;
+      y = (int) si.y;
+      width = (int) si.width;
+      height = (int) si.height;
+      Color primaryColor = si.primaryColor.getColor();
+      Color secondaryColor = si.secondaryColor.getColor();
 
+      int[] xPoints = {x, x+width, x};
+      int[] yPoints = {y+height, y, y};
 
-
-
-    public void draw(Graphics2D g2d){
-        int[] xPoints = {x, x+width, x};
-        int[] yPoints = {y+height, y, y};
-        Color primaryColor = appState.getActivePrimaryColor().getColor();
-        Color secondaryColor = appState.getActiveSecondaryColor().getColor();
-
-        switch (appState.getActiveShapeShadingType()) {
+        switch (si.shading) {
             case FILLED_IN:
                 g2d.setColor(primaryColor);
                 g2d.fillPolygon(xPoints, yPoints, 3);

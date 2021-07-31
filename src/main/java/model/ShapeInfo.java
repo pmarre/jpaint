@@ -15,10 +15,14 @@ public class ShapeInfo {
     public ShapeList sl;
     public ApplicationState state;
     public PaintCanvasBase pc;
+    public double width;
+    public double height;
+    public double x;
+    public double y;
 
 
     public ShapeInfo(ApplicationState state, Point start,
-                     Point end) {
+                     Point end, double x, double y, double w, double h) {
         this.primaryColor = state.getActivePrimaryColor();
         this.secondaryColor = state.getActiveSecondaryColor();
         this.shading = state.getActiveShapeShadingType();
@@ -28,5 +32,9 @@ public class ShapeInfo {
         this.sl = sl;
         this.state = state;
         this.pc = pc;
+        this.width = w;
+        this.height = h;
+        this.x = x;
+        this.y = y;
     }
 }

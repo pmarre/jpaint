@@ -24,10 +24,10 @@ public class PaintCanvas extends PaintCanvasBase {
         super.paint(g2d);
         ShapeList sl = new ShapeList();
         System.out.println("print shapes");
-        for (CreateShapeCommand c : sl.getShapes()) {
-            System.out.println("shape");
-            c.update();
-        }
+//        for (CreateShapeCommand c : sl.getShapes()) {
+//            System.out.println("shape");
+//           // c.update();
+//        }
         System.out.println("Time to repaint");
     }
 }
