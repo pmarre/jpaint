@@ -24,8 +24,8 @@ public class CopyCommand implements  ICommand, IUndoable {
   public void execute() {
     copyList = ListContainer.getCopyList();
     System.out.println("in copy execute");
-    double x_move = 50;
-    double y_move = 50;
+    double x_move = 100;
+    double y_move = -50;
     System.out.println("selected: " + ListContainer.getSelectedShapes().getShapes().size());
     for (CreateShapeCommand s : ListContainer.getSelectedShapes().getShapes()) {
       ShapeInfo si = s.shapeInfo;
@@ -34,6 +34,7 @@ public class CopyCommand implements  ICommand, IUndoable {
       ShapeInfo nsi = new ShapeInfo(si.state, ns, ne , ns.getX(), ns.getY(), si.width, si.height);
       CreateShapeCommand shape = new CreateShapeCommand(si.state, si.pc, ns, ne, si.sl, nsi);
       copyList.addShape(shape);
+      System.out.println("x: " + s.shapeInfo.start.getX());
       System.out.println("copy list: " + copyList.getShapes().size());
     }
   }

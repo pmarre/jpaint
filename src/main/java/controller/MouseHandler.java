@@ -1,5 +1,6 @@
 package controller;
 
+import model.ListContainer;
 import model.MouseMode;
 import model.ShapeInfo;
 import model.interfaces.IUndoable;
@@ -24,7 +25,7 @@ public class MouseHandler extends MouseAdapter {
     ShapeList selected;
 
     public MouseHandler(ApplicationState appState, PaintCanvasBase paintCanvas) {
-        shapeList = new ShapeList();
+        shapeList = ListContainer.getShapeList();
         selected = new ShapeList();
         this.appState = appState;
         this.paintCanvas = paintCanvas;

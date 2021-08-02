@@ -1,5 +1,6 @@
 package controller;
 
+import model.ListContainer;
 import model.ShapeList;
 import model.interfaces.ICommand;
 import model.interfaces.IObserver;
@@ -27,7 +28,7 @@ public class DrawShapeCommand implements IObserver {
         this.end = end;
         this.pc = pc;
         this.g2d =  pc.getGraphics2D();
-        this.shapeList = shapeList;
+        this.shapeList = ListContainer.getShapeList();
     }
 
 

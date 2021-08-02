@@ -11,11 +11,16 @@ public class PasteCommand implements ICommand, IUndoable {
   @Override
   public void execute() {
 
-    ShapeList sl = ListContainer.getSelectedShapes();
-    System.out.println("in paste command " + sl.getShapes().size());
+    ShapeList sl = ListContainer.getShapeList();
+    System.out.println("in paste command " + ListContainer.getCopyList().getShapes().size());
     for (CreateShapeCommand cs : ListContainer.getCopyList().getShapes()) {
       sl.addShape(cs);
+      System.out.println("x: " + cs.shapeInfo.start.getX());
+      System.out.println("Shape added by paste: " + cs);
+      System.out.println("SL: " + ListContainer.getShapeList().getShapes().size());
     }
+
+    ListContainer.getCopyList().getShapes().clear();
   }
 
   @Override
