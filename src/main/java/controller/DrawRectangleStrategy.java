@@ -30,7 +30,6 @@ public class DrawRectangleStrategy implements IShape {
 
         switch (si.shading) {
             case FILLED_IN:
-                System.out.println("Rectangle");
                 g2d.setColor(primaryColor);
                 g2d.fillRect(x, y, w, h);
                 break;

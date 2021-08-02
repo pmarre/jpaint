@@ -1,6 +1,8 @@
 package view.gui;
 
 import controller.CreateShapeCommand;
+import model.GraphicsContainer;
+import model.ListContainer;
 import view.interfaces.PaintCanvasBase;
 
 import javax.swing.JComponent;
@@ -13,6 +15,7 @@ public class PaintCanvas extends PaintCanvasBase {
         return (Graphics2D)getGraphics();
     }
 
+
     @Override
     /**
      * This is an event handler.  If this function gets called, its time to
@@ -22,12 +25,18 @@ public class PaintCanvas extends PaintCanvasBase {
     public void paint(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         super.paint(g2d);
-        ShapeList sl = new ShapeList();
-        System.out.println("print shapes");
-//        for (CreateShapeCommand c : sl.getShapes()) {
-//            System.out.println("shape");
-//           // c.update();
-//        }
+        ShapeList sl = ListContainer.getShapeList();
+        GraphicsContainer.setG2D(g2d);
+        if (sl == null) return;
+        int count = 0;
+        for (CreateShapeCommand csc : sl.getShapes()) {
+            if (count < 1 ) {
+                csc.update();
+            } else {
+                break;
+            }
+        }
+
         System.out.println("Time to repaint");
     }
 }

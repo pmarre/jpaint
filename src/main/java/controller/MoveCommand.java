@@ -27,6 +27,7 @@ public class MoveCommand implements ICommand, IUndoable {
        this.selectedShapes = selectedShapes;
        this.sl = sl;
        this.shapeInfo = shapeInfo;
+       this.pc = shapeInfo.pc;
     }
 
     public static void moveShape() {
@@ -40,14 +41,15 @@ public class MoveCommand implements ICommand, IUndoable {
             Point ne = new Point ((int)(si.end.getX() + x_move), (int)(si.end.getY() + y_move));
             ShapeInfo nsi = new ShapeInfo(si.state, ns, ne , ns.getX(), ns.getY(), si.width, si.height);
             CreateShapeCommand shape = new CreateShapeCommand(si.state, si.pc, ns, ne, si.sl, nsi);
+            shape.execute();
             sl.replaceShape(s, shape);
+
         }
     }
 
     @Override
     public void execute() {
         moveShape();
-        System.out.println("in move mode execute");
     }
 
     @Override

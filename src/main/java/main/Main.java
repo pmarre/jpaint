@@ -5,6 +5,7 @@ import controller.IJPaintController;
 import controller.JPaintController;
 import controller.MouseHandler;
 import model.CopyList;
+import model.GraphicsContainer;
 import model.ListContainer;
 import model.MouseMode;
 import model.ShapeList;
@@ -41,9 +42,10 @@ public class Main {
             e.printStackTrace();
         }
         ListContainer listContainer = new ListContainer(shapelist, selectedShapes, copyList);
-        Graphics2D graphics2d = paintCanvas.getGraphics2D();
+        Graphics2D graphics2d = (Graphics2D) paintCanvas.getGraphics();
+        GraphicsContainer gc = new GraphicsContainer(graphics2d);
         MouseHandler mh = new MouseHandler(appState, paintCanvas);
         paintCanvas.addMouseListener(mh);
-        paintCanvas.repaint();
+        //paintCanvas.repaint();
     }
 }

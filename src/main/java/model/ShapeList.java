@@ -17,13 +17,17 @@ public class ShapeList {
     public void addShape(CreateShapeCommand shape) {
         shapeList.add(shape);
         //observers = shapeList;
+
+        //shape.shapeInfo.pc.repaint();
         notifyObservers();
         System.out.println("Added to shapelist: " + shape);
     }
 
     public void removeShape(CreateShapeCommand shape) {
+
         shapeList.remove(shape);
         //observers = shapeList;
+        //shape.shapeInfo.pc.repaint();
         notifyObservers();
         System.out.println("Removed: " + shape);
     }

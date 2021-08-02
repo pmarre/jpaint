@@ -73,19 +73,19 @@ public class MouseHandler extends MouseAdapter {
         switch (MM) {
             case DRAW:
 
-               // cmd = new DrawShapeCommand(appState, paintCanvas, start, end, shapeList);
-                //cmd = new CreateShapeCommand(appState, paintCanvas, start, end, shapeList, shapeInfo);
                 csc = new CreateShapeCommand(appState, paintCanvas, start, end, shapeList, shapeInfo);
-                //paintCanvas.repaint();
+
                 shapeList.registerObserver(csc);
                 shapeList.addShape(csc);
                 csc.execute();
+                paintCanvas.repaint();
                 //CommandHistory.add(csc);
                 break;
 
             case MOVE:
                 MoveCommand m = new MoveCommand(start, end, selected, shapeList, shapeInfo);
                 m.execute();
+                paintCanvas.repaint();
                 System.out.println("Mouse in move mode");
                 break;
 

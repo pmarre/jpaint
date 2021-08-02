@@ -1,5 +1,6 @@
 package controller;
 
+import model.GraphicsContainer;
 import model.ListContainer;
 import model.ShapeList;
 import model.interfaces.ICommand;
@@ -27,7 +28,7 @@ public class DrawShapeCommand implements IObserver {
         this.start = start;
         this.end = end;
         this.pc = pc;
-        this.g2d =  pc.getGraphics2D();
+//        this.g2d =  pc.getGraphics2D();
         this.shapeList = ListContainer.getShapeList();
     }
 
@@ -48,6 +49,7 @@ public class DrawShapeCommand implements IObserver {
                 throw new IllegalArgumentException("Add shape");
         }
 
+        g2d = GraphicsContainer.getG2D();
         shape.draw(g2d, csc);
 
     }
@@ -56,7 +58,6 @@ public class DrawShapeCommand implements IObserver {
 
     @Override
     public void update() {
-        //pc.repaint();
         for (CreateShapeCommand s : shapeList.getShapes()) {
             DrawStrategy(s, s.shapeInfo);
         }
