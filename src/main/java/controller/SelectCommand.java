@@ -1,5 +1,7 @@
 package controller;
 
+import model.ListContainer;
+import model.ShapeInfo;
 import model.ShapeList;
 import model.interfaces.ICommand;
 import model.interfaces.IShape;
@@ -44,6 +46,7 @@ public class SelectCommand implements ICommand {
                     shape.getStart().getY() < end.getY()) {
                 System.out.println("Collision");
                 selected.addShape(shape);
+                ListContainer.getSelectedShapes().addShape(shape);
 
                 if (shape.getStart().getX() >= top_x) {
                     top_x = shape.getStart().getX();
@@ -61,12 +64,14 @@ public class SelectCommand implements ICommand {
                     bottom_y = shape.getEnd().getY();
                 }
 
+
                 System.out.println(bottom_x + " " + bottom_y + " " + top_x + " " + top_y);
 
             } else {
                 //System.out.println(selected.getShapes().size());
                 for (CreateShapeCommand s : selected.getShapes()) {
                     selected.removeShape(s);
+                    ListContainer.getSelectedShapes().removeShape(shape);
                 }
                 System.out.println("Selected: " + selected.getShapes().size());
             }

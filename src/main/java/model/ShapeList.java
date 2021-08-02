@@ -28,6 +28,13 @@ public class ShapeList {
         System.out.println("Removed: " + shape);
     }
 
+    public void replaceShape(CreateShapeCommand shape, CreateShapeCommand new_shape) {
+        shapeList.remove(shape);
+        shapeList.add(new_shape);
+        notifyObservers();
+        System.out.println("Replaced " + shape + " with " + new_shape);
+    }
+
     public void printList() {
         for (int i = 0; i < shapeList.size(); i++) {
             System.out.println("shape: " + shapeList.indexOf(i));

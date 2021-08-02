@@ -39,8 +39,9 @@ public class CreateShapeCommand implements ICommand, IUndoable {
 // THIS MAY NEED TO BE REMOVED:
 
     public void update() {
+      //pc.repaint();
       DrawShapeCommand ds = new DrawShapeCommand(appState, pc, start, end, shapelist);
-     // pc.repaint();
+
       ds.update();
 
 //        for (CreateShapeCommand shape : shapelist.getShapes()) {
@@ -60,10 +61,10 @@ public class CreateShapeCommand implements ICommand, IUndoable {
 
     public void execute() {
 
-            ShapeType curr_shape = appState.getActiveShapeType();
-            Graphics2D g =pc.getGraphics2D();
-            double[] start1 = {start.getX(), start.getY()};
-            double[] end1 = {end.getX(), end.getY()};
+            ShapeType curr_shape = shapeInfo.state.getActiveShapeType();
+            //Graphics2D g = shapeInfo.pc.getGraphics2D();
+            double[] start1 = {shapeInfo.start.getX(), shapeInfo.start.getY()};
+            double[] end1 = {shapeInfo.end.getX(), shapeInfo.end.getY()};
             double width, height, x, y;
 
             System.out.println("S_X: " + start1[0] + " S_Y: " + start1[0] + " E_X: " + end1[0] + " E_Y: " + end1[1]);
@@ -105,7 +106,7 @@ public class CreateShapeCommand implements ICommand, IUndoable {
             }
 
           //  shape.draw(g, shape);
-            System.out.println("drawing a " + appState.getActiveShapeType());
+           // System.out.println("drawing a " + appState.getActiveShapeType());
             //pc.repaint();
 
       // THIS CAUSES AN ENDLESS LOOP:

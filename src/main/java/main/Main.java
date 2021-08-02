@@ -4,6 +4,8 @@ package main;
 import controller.IJPaintController;
 import controller.JPaintController;
 import controller.MouseHandler;
+import model.CopyList;
+import model.ListContainer;
 import model.MouseMode;
 import model.ShapeList;
 import model.interfaces.IShape;
@@ -31,13 +33,14 @@ public class Main {
         controller.setup();
         ShapeList shapelist = new ShapeList();
         ShapeList selectedShapes = new ShapeList();
+        CopyList copyList = new CopyList();
 
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
+        ListContainer listContainer = new ListContainer(shapelist, selectedShapes, copyList);
         Graphics2D graphics2d = paintCanvas.getGraphics2D();
         MouseHandler mh = new MouseHandler(appState, paintCanvas);
         paintCanvas.addMouseListener(mh);

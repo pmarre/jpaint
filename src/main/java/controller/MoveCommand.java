@@ -31,41 +31,20 @@ public class MoveCommand implements ICommand, IUndoable {
 
     public static void moveShape() {
         // Calculate the distance moved
-        double x_move = start.getX() - end.getX();
-        double y_move = start.getY() - end.getY();
+        double x_move = end.getX() - start.getX();
+        double y_move = end.getY() - start.getY();
 
         for (CreateShapeCommand s : selectedShapes.getShapes()) {
-            double x = s.getStart().getX();
-            double y = s.getStart().getY();
-            double w = x - s.getEnd().getX();
-            double h = y - s.getEnd().getY();
-
-            int new_x = (int) (s.getStart().getX() + x_move);
-            int new_y = (int) (s.getStart().getY() + x_move);
-
-            int new_e = (int) (s.getEnd().getX() + x_move);
-            int new_ey = (int) (s.getEnd().getY() + y_move);
-
-            Point x1 = new Point(new_x, new_y);
-            Point x2 = new Point(new_e, new_ey);
-
-            Point[] xy = s.getXY();
-            int deltaX =  (int) Math.abs(xy[0].getX() - start.getX());
-            int deltaY = (int) Math.abs(xy[0].getY() - start.getY());
-
-            xy[0].translate(deltaX, deltaY);
-            xy[1].translate(deltaX, deltaY);
-
-            CreateShapeCommand shape = new CreateShapeCommand(state, pc, x1, x2, sl, shapeInfo);
-
-            int i = sl.getShapes().indexOf(s);
-            sl.getShapes().set(i, shape);
-
-            shape.execute();
+            ShapeInfo si = s.shapeInfo;
+            Point ns = new Point ((int)(si.start.getX() + x_move), (int)(si.start.getY() + y_move));
+            Point ne = new Point ((int)(si.end.getX() + x_move), (int)(si.end.getY() + y_move));
+            ShapeInfo nsi = new ShapeInfo(si.state, ns, ne , ns.getX(), ns.getY(), si.width, si.height);
+            CreateShapeCommand shape = new CreateShapeCommand(si.state, si.pc, ns, ne, si.sl, nsi);
+            sl.replaceShape(s, shape);
         }
     }
 
-
+    @Override
     public void execute() {
         moveShape();
         System.out.println("in move mode execute");

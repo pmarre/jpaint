@@ -46,6 +46,7 @@ public class DrawShapeCommand implements IObserver {
             default:
                 throw new IllegalArgumentException("Add shape");
         }
+
         shape.draw(g2d, csc);
 
     }
