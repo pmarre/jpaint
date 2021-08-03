@@ -1,5 +1,7 @@
 package controller;
 
+import static controller.DrawShapeCommand.DrawStrategy;
+
 import model.ListContainer;
 import model.ShapeInfo;
 import model.ShapeType;
@@ -14,6 +16,7 @@ import view.interfaces.PaintCanvasBase;
 import java.awt.*;
 import java.lang.*;
 import java.util.*;
+import controller.DrawShapeCommand.*;
 
 public class CreateShapeCommand implements ICommand, IUndoable {
 
@@ -42,8 +45,10 @@ public class CreateShapeCommand implements ICommand, IUndoable {
 // THIS MAY NEED TO BE REMOVED:
 
     public void update() {
-      DrawShapeCommand ds = new DrawShapeCommand(appState, pc, start, end);
-      ds.update();
+      shapelist = ListContainer.getShapeList();
+      for (CreateShapeCommand s : shapelist.getShapes()) {
+        DrawStrategy(s, s.shapeInfo);
+      }
     }
 
     public Point getStart() {

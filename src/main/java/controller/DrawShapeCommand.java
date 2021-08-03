@@ -14,7 +14,7 @@ import view.gui.PaintCanvas;
 import view.interfaces.PaintCanvasBase;
 import model.ShapeInfo;
 
-public class DrawShapeCommand implements IObserver {
+public class DrawShapeCommand  {
     static Graphics2D g2d;
     //static IShape shape;
     static ApplicationState state;
@@ -51,15 +51,5 @@ public class DrawShapeCommand implements IObserver {
         g2d = GraphicsContainer.getG2D();
         shape.draw(g2d, csc);
 
-    }
-
-
-
-    @Override
-    public void update() {
-        for (CreateShapeCommand s : shapeList.getShapes()) {
-            DrawStrategy(s, s.shapeInfo);
-        }
-        System.out.println("total shapes: " + shapeList.getShapes().size());
     }
 }

@@ -19,7 +19,8 @@ public class MoveCommand implements ICommand, IUndoable {
     static ShapeList sl;
     static ShapeList selectedShapes;
     static PaintCanvasBase pc;
-
+    static ArrayList<CreateShapeCommand> oldL = new ArrayList<CreateShapeCommand>();
+    static ArrayList<CreateShapeCommand> newL = new ArrayList<CreateShapeCommand>();
     public MoveCommand (Point start, Point end) {
        this.start = start;
        this.end = end;
@@ -36,6 +37,7 @@ public class MoveCommand implements ICommand, IUndoable {
         CreateShapeCommand oldShape = null;
         ShapeList tmpOld = new ShapeList();
         ShapeList tmpNew = new ShapeList();
+        int count = 1;
         for (CreateShapeCommand s : selectedShapes.getShapes()) {
             shapeInfo = s.shapeInfo;
             pc = shapeInfo.pc;
@@ -54,30 +56,48 @@ public class MoveCommand implements ICommand, IUndoable {
             sl.replaceShape(s, shape);
             tmpNew.addShape(shape);
             tmpOld.addShape(s);
+            oldL.add(s);
+            newL.add(shape);
+            System.out.println("Swap #: " + count);
+            count++;
         }
 
         // Need better solution here
+
         for (CreateShapeCommand cs : tmpOld.getShapes()) {
             int i = tmpOld.getShapes().indexOf(cs);
             selectedShapes.replaceShape(cs, tmpNew.getShapes().get(i));
+
         }
         tmpNew.getShapes().clear();
         tmpOld.getShapes().clear();
+
     }
 
     @Override
     public void execute() {
         moveShape();
+        CommandHistory.add(this);
         System.out.println("selected shapes after move: " + ListContainer.getSelectedShapes().getShapes().size());
     }
 
     @Override
-    public void redo() {
-
+    public void undo() {
+        for (CreateShapeCommand cs : newL) {
+            sl.removeShape(cs);
+        }
+        for (CreateShapeCommand cs : oldL) {
+            sl.addShape(cs);
+        }
     }
 
     @Override
-    public void undo() {
-
+    public void redo() {
+        for (CreateShapeCommand cs : newL) {
+            sl.addShape(cs);
+        }
+        for (CreateShapeCommand cs : oldL) {
+            sl.removeShape(cs);
+        }
     }
 }

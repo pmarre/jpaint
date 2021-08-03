@@ -43,8 +43,9 @@ public class SelectCommand implements ICommand {
         shapeList = ListContainer.getShapeList();
         tempList = new ShapeList();
         System.out.println(shapeList.getShapes().size());
+        int count1 = 1;
         for (CreateShapeCommand shape : shapeList.getShapes()) {
-
+            System.out.println("Selected #: " + count1);
             if (shape.getEnd().getX() > start.getX() &&
                     shape.getStart().getX() < end.getX() &&
                     shape.getEnd().getY() > start.getY() &&
@@ -52,12 +53,10 @@ public class SelectCommand implements ICommand {
                 System.out.println("Collision");
                 CreateShapeCommand cs = outlineSelected(shape);
                 selected.addShape(shape);
-
                 selected.addShape(cs);
-                // tempList.addShape(  );
                 tempList.addShape(cs);
             }
-
+    count1++;
         }
 
         for (CreateShapeCommand cs : tempList.getShapes()) {

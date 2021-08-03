@@ -11,8 +11,6 @@ import java.awt.*;
 
 public class DrawEllipseStrategy implements IShape {
 
-  IApplicationState app_state;
-  PaintCanvasBase paintcanvas;
   int x;
   int y;
   int w;
@@ -30,7 +28,6 @@ public class DrawEllipseStrategy implements IShape {
 
     switch (si.shading) {
       case FILLED_IN:
-        System.out.println("FILLED_IN Height: " + h + " Width: " + w);
         g2d.setColor(primaryColor);
         g2d.fillOval(x, y, w, h);
         break;
@@ -45,7 +42,6 @@ public class DrawEllipseStrategy implements IShape {
         }
         g2d.setColor(secondaryColor);
         g2d.drawOval(x, y, w, h);
-        System.out.println("OUTLINE Height: " + h + " Width: " + w);
         break;
 
       case OUTLINE_AND_FILLED_IN:
@@ -54,7 +50,6 @@ public class DrawEllipseStrategy implements IShape {
         g2d.setStroke(new BasicStroke(3));
         g2d.setColor(secondaryColor);
         g2d.drawOval(x, y, w, h);
-        System.out.println("OUTLINE_AND_FILLED_IN Height: " + h + " Width: " + w);
         break;
 
       default:

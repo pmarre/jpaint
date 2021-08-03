@@ -83,7 +83,7 @@ public class MouseHandler extends MouseAdapter {
                 break;
 
             case MOVE:
-                System.out.println(shapeInfo.shape);
+                System.out.println(ListContainer.getSelectedShapes().getShapes().size());
                 MoveCommand m = new MoveCommand(start, end);
                 m.execute();
                 paintCanvas.repaint();
