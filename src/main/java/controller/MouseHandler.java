@@ -67,13 +67,13 @@ public class MouseHandler extends MouseAdapter {
         }
 
         // END TEMP CODE
-        ShapeInfo shapeInfo = new ShapeInfo(appState, start, end, x, y, width, height);
+        ShapeInfo shapeInfo = new ShapeInfo(appState, paintCanvas, start, end, x, y, width, height);
         CreateShapeCommand csc = null;
         if (height < 1 && width < 1) { return; }
         switch (MM) {
             case DRAW:
 
-                csc = new CreateShapeCommand(appState, paintCanvas, start, end, shapeList, shapeInfo);
+                csc = new CreateShapeCommand(paintCanvas, start, end, shapeList, shapeInfo);
 
                 shapeList.registerObserver(csc);
                 shapeList.addShape(csc);
@@ -83,14 +83,15 @@ public class MouseHandler extends MouseAdapter {
                 break;
 
             case MOVE:
-                MoveCommand m = new MoveCommand(start, end, selected, shapeList, shapeInfo);
+                System.out.println(shapeInfo.shape);
+                MoveCommand m = new MoveCommand(start, end);
                 m.execute();
                 paintCanvas.repaint();
                 System.out.println("Mouse in move mode");
                 break;
 
             case SELECT:
-                SelectCommand c = new SelectCommand(selected, start, end, paintCanvas, appState, shapeList);
+                SelectCommand c = new SelectCommand(start, end, paintCanvas, appState);
                 c.execute();
                 System.out.println("Mouse in select mode");
                 break;

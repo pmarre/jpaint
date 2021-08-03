@@ -1,33 +1,30 @@
 package model;
 
+import java.awt.Paint;
 import model.interfaces.IUndoable;
 import controller.CreateShapeCommand;
 import model.interfaces.IShape;
 
 import java.util.ArrayList;
+import view.gui.PaintCanvas;
+import view.interfaces.PaintCanvasBase;
 
 public class ShapeList {
     private ArrayList<CreateShapeCommand> shapeList;
     private ArrayList<CreateShapeCommand> observers = new ArrayList<CreateShapeCommand>();
-
+    static PaintCanvasBase pc = new PaintCanvas();
     public ShapeList() {
         shapeList = new ArrayList<CreateShapeCommand>();
     }
 
     public void addShape(CreateShapeCommand shape) {
         shapeList.add(shape);
-        //observers = shapeList;
-
-        //shape.shapeInfo.pc.repaint();
         notifyObservers();
         System.out.println("Added to shapelist: " + shape);
     }
 
     public void removeShape(CreateShapeCommand shape) {
-
         shapeList.remove(shape);
-        //observers = shapeList;
-        //shape.shapeInfo.pc.repaint();
         notifyObservers();
         System.out.println("Removed: " + shape);
     }
@@ -36,12 +33,11 @@ public class ShapeList {
         shapeList.remove(shape);
         shapeList.add(new_shape);
         notifyObservers();
-        System.out.println("Replaced " + shape + " with " + new_shape);
     }
 
     public void printList() {
-        for (int i = 0; i < shapeList.size(); i++) {
-            System.out.println("shape: " + shapeList.indexOf(i));
+        for (CreateShapeCommand cs : shapeList) {
+            System.out.println("shape: " + cs);
         }
 
     }
@@ -56,6 +52,7 @@ public class ShapeList {
     public void notifyObservers() {
         for(CreateShapeCommand observer: observers) {
             observer.update();
+            observer.shapeInfo.pc.repaint();
         }
     }
 

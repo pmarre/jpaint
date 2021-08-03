@@ -32,11 +32,13 @@ public class PaintCanvas extends PaintCanvasBase {
         for (CreateShapeCommand csc : sl.getShapes()) {
             if (count < 1 ) {
                 csc.update();
+                if (ListContainer.getSelectedShapes().getShapes().size() > 0) {
+                    ListContainer.getSelectedShapes().getShapes().get(0).update();
+                }
             } else {
                 break;
             }
         }
-
         System.out.println("Time to repaint");
     }
 }

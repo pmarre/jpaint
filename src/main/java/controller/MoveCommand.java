@@ -1,5 +1,6 @@
 package controller;
 
+import model.ListContainer;
 import model.ShapeInfo;
 import model.ShapeList;
 import model.interfaces.ICommand;
@@ -18,38 +19,56 @@ public class MoveCommand implements ICommand, IUndoable {
     static ShapeList sl;
     static ShapeList selectedShapes;
     static PaintCanvasBase pc;
-    static ApplicationState state;
-    static Point location;
 
-    public MoveCommand (Point start, Point end, ShapeList selectedShapes, ShapeList sl, ShapeInfo shapeInfo) {
+    public MoveCommand (Point start, Point end) {
        this.start = start;
        this.end = end;
-       this.selectedShapes = selectedShapes;
-       this.sl = sl;
-       this.shapeInfo = shapeInfo;
-       this.pc = shapeInfo.pc;
     }
 
     public static void moveShape() {
         // Calculate the distance moved
+        sl = ListContainer.getShapeList();
+        selectedShapes = ListContainer.getSelectedShapes();
         double x_move = end.getX() - start.getX();
         double y_move = end.getY() - start.getY();
-
+        System.out.println("selected shapes before move: " + ListContainer.getSelectedShapes().getShapes().size());
+        CreateShapeCommand tempShape = null;
+        CreateShapeCommand oldShape = null;
+        ShapeList tmpOld = new ShapeList();
+        ShapeList tmpNew = new ShapeList();
         for (CreateShapeCommand s : selectedShapes.getShapes()) {
-            ShapeInfo si = s.shapeInfo;
-            Point ns = new Point ((int)(si.start.getX() + x_move), (int)(si.start.getY() + y_move));
-            Point ne = new Point ((int)(si.end.getX() + x_move), (int)(si.end.getY() + y_move));
-            ShapeInfo nsi = new ShapeInfo(si.state, ns, ne , ns.getX(), ns.getY(), si.width, si.height);
-            CreateShapeCommand shape = new CreateShapeCommand(si.state, si.pc, ns, ne, si.sl, nsi);
-            shape.execute();
+            shapeInfo = s.shapeInfo;
+            pc = shapeInfo.pc;
+            System.out.println("Selected shape: " + shapeInfo.shape);
+            Point ns = new Point ((int)(shapeInfo.start.getX() + x_move), (int)(shapeInfo.start.getY() + y_move));
+            Point ne = new Point ((int)(shapeInfo.end.getX() + x_move), (int)(shapeInfo.end.getY() + y_move));
+            ShapeInfo nsi = new ShapeInfo(shapeInfo.state, shapeInfo.pc, ns, ne , ns.getX(), ns.getY(), shapeInfo.width, shapeInfo.height);
+            nsi.shape = shapeInfo.shape;
+            nsi.shading = shapeInfo.shading;
+            nsi.primaryColor = shapeInfo.primaryColor;
+            nsi.secondaryColor = shapeInfo.secondaryColor;
+            if (s.shapeInfo.isSelected) {
+                nsi.isSelected = true;
+            }
+            CreateShapeCommand shape = new CreateShapeCommand(shapeInfo.pc, ns, ne, shapeInfo.sl, nsi);
             sl.replaceShape(s, shape);
-
+            tmpNew.addShape(shape);
+            tmpOld.addShape(s);
         }
+
+        // Need better solution here
+        for (CreateShapeCommand cs : tmpOld.getShapes()) {
+            int i = tmpOld.getShapes().indexOf(cs);
+            selectedShapes.replaceShape(cs, tmpNew.getShapes().get(i));
+        }
+        tmpNew.getShapes().clear();
+        tmpOld.getShapes().clear();
     }
 
     @Override
     public void execute() {
         moveShape();
+        System.out.println("selected shapes after move: " + ListContainer.getSelectedShapes().getShapes().size());
     }
 
     @Override

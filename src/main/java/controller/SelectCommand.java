@@ -1,8 +1,13 @@
 package controller;
 
+import java.util.List;
+import javax.swing.BorderFactory;
+import model.GraphicsContainer;
 import model.ListContainer;
+import model.ShapeColor;
 import model.ShapeInfo;
 import model.ShapeList;
+import model.ShapeShadingType;
 import model.interfaces.ICommand;
 import model.interfaces.IShape;
 import model.persistence.ApplicationState;
@@ -18,77 +23,92 @@ public class SelectCommand implements ICommand {
     Point end;
     PaintCanvasBase pc;
     ApplicationState state;
-    ShapeList shapeList;
-    double top_x = -1;
-    double bottom_x = -1;
-    double top_y = -1;
-    double bottom_y = -1;
-    ShapeList selected;
+    static ShapeList shapeList;
+    static ShapeList selected;
+    static ShapeList tempList = new ShapeList();
 
-    public SelectCommand (ShapeList selected, Point start, Point end, PaintCanvasBase pc, ApplicationState state, ShapeList shapeList) {
+    public SelectCommand (Point start, Point end, PaintCanvasBase pc, ApplicationState state) {
         this.start = start;
         this.end = end;
         this.pc = pc;
         this.state = state;
-        this.shapeList = shapeList;
-        this.selected = selected;
     }
 
 
 
     @Override
     public void execute(){
+        selected = ListContainer.getSelectedShapes();
+        selected.getShapes().clear();
+        shapeList = ListContainer.getShapeList();
+        tempList = new ShapeList();
+        System.out.println(shapeList.getShapes().size());
         for (CreateShapeCommand shape : shapeList.getShapes()) {
-            System.out.println("x: " + shape.getStart().getX() + " boundary: " + start.getX());
+
             if (shape.getEnd().getX() > start.getX() &&
                     shape.getStart().getX() < end.getX() &&
                     shape.getEnd().getY() > start.getY() &&
                     shape.getStart().getY() < end.getY()) {
                 System.out.println("Collision");
+                CreateShapeCommand cs = outlineSelected(shape);
                 selected.addShape(shape);
-                ListContainer.getSelectedShapes().addShape(shape);
 
-                if (shape.getStart().getX() >= top_x) {
-                    top_x = shape.getStart().getX();
-                }
-
-                if (shape.getEnd().getX() >= bottom_x) {
-                    bottom_x = shape.getEnd().getX();
-                }
-
-                if (shape.getStart().getY() >= top_y) {
-                    top_y = shape.getStart().getY();
-                }
-
-                if (shape.getEnd().getY() >= bottom_y) {
-                    bottom_y = shape.getEnd().getY();
-                }
-
-
-                System.out.println(bottom_x + " " + bottom_y + " " + top_x + " " + top_y);
-
-            } else {
-                //System.out.println(selected.getShapes().size());
-                for (CreateShapeCommand s : selected.getShapes()) {
-                    selected.removeShape(s);
-                    ListContainer.getSelectedShapes().removeShape(shape);
-                }
-                System.out.println("Selected: " + selected.getShapes().size());
+                selected.addShape(cs);
+                // tempList.addShape(  );
+                tempList.addShape(cs);
             }
+
         }
 
-//        int x = (int) top_x;
-//        int y = (int) top_y;
-//        int w = (int) (top_x - bottom_x);
-//        int h = (int) (top_y - bottom_y);
-
-       //pc.getGraphics2D().drawRect(x,y,w,h);
-        //System.out.println("rect");
-        int count = 0;
-        for (CreateShapeCommand s : selected.getShapes() ) {
-            count++;
+        for (CreateShapeCommand cs : tempList.getShapes()) {
+            shapeList.addShape(cs);
         }
-        System.out.println("shapes selected: " + count);
+
+
+// Hacked together way to remove outline
+        if (selected.getShapes().size() == 0) {
+            int count = 0;
+            int size = shapeList.getShapes().size();
+            System.out.println("remove");
+            while (count < size) {
+                CreateShapeCommand s = shapeList.getShapes().get(count);
+                if (s.shapeInfo.isSelected) {
+                    shapeList.removeShape(s);
+                    size--;
+                    System.out.println("remove");
+                } else {
+                    count++;
+                }
+
+            }
+
+
+        }
+        tempList.getShapes().clear();
     }
+
+    public CreateShapeCommand outlineSelected(CreateShapeCommand shape) {
+        Graphics2D g2d = GraphicsContainer.getG2D();
+        ShapeInfo si = new ShapeInfo(shape.shapeInfo.state, shape.shapeInfo.pc, shape.shapeInfo.start,
+            shape.shapeInfo.end, shape.shapeInfo.x - 5, shape.shapeInfo.y - 5, shape.shapeInfo.width + 10,
+            shape.shapeInfo.height +10);
+        Point ns = new Point((int)si.start.getX() - 5, (int)si.start.getY() - 5);
+        Point ne = new Point((int)si.end.getX() - 5, (int)si.end.getY() - 5);
+        si.start = ns;
+        si.end = ne;
+        si.shape = shape.shapeInfo.shape;
+        si.secondaryColor = ShapeColor.RED;
+        si.shading = ShapeShadingType.OUTLINE;
+        si.isSelected = true;
+        CreateShapeCommand cs = new CreateShapeCommand(si.pc, si.start, si.end, si.sl, si);
+        selected.addShape(cs);
+        shape.shapeInfo.pc.repaint();
+        System.out.println("border");
+        return cs;
+
+    }
+
+
+
 
 }

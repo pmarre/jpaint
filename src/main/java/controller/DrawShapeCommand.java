@@ -23,12 +23,11 @@ public class DrawShapeCommand implements IObserver {
     static IShape shape;
     static ShapeList shapeList;
 
-    public DrawShapeCommand(ApplicationState state, PaintCanvasBase pc,  Point start, Point end, ShapeList shapeList) {
+    public DrawShapeCommand(ApplicationState state, PaintCanvasBase pc,  Point start, Point end) {
         this.state = state;
         this.start = start;
         this.end = end;
         this.pc = pc;
-//        this.g2d =  pc.getGraphics2D();
         this.shapeList = ListContainer.getShapeList();
     }
 
@@ -61,5 +60,6 @@ public class DrawShapeCommand implements IObserver {
         for (CreateShapeCommand s : shapeList.getShapes()) {
             DrawStrategy(s, s.shapeInfo);
         }
+        System.out.println("total shapes: " + shapeList.getShapes().size());
     }
 }

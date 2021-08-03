@@ -10,12 +10,10 @@ public class PasteCommand implements ICommand, IUndoable {
 
   @Override
   public void execute() {
-
     ShapeList sl = ListContainer.getShapeList();
     for (CreateShapeCommand cs : ListContainer.getCopyList().getShapes()) {
       sl.addShape(cs);
     }
-
     ListContainer.getCopyList().getShapes().clear();
   }
 
@@ -24,5 +22,4 @@ public class PasteCommand implements ICommand, IUndoable {
 
   @Override
   public void redo() {}
-
 }

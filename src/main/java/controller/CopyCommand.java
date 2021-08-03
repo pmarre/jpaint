@@ -28,14 +28,20 @@ public class CopyCommand implements  ICommand, IUndoable {
     double y_move = 100;
 
     for (CreateShapeCommand s : ListContainer.getSelectedShapes().getShapes()) {
-      ShapeInfo si = s.shapeInfo;
-      Point ns = new Point ((int)(si.start.getX() + x_move), (int)(si.start.getY() + y_move));
-      Point ne = new Point ((int)(si.end.getX() + x_move), (int)(si.end.getY() + y_move));
-      ShapeInfo nsi = new ShapeInfo(si.state, ns, ne , ns.getX(), ns.getY(), si.width, si.height);
-      CreateShapeCommand shape = new CreateShapeCommand(si.state, si.pc, ns, ne, si.sl, nsi);
-      copyList.addShape(shape);
-
-      CommandHistory.add(this);
+      if (!s.shapeInfo.isSelected) {
+        ShapeInfo si = s.shapeInfo;
+        Point ns = new Point((int) (si.start.getX() + x_move), (int) (si.start.getY() + y_move));
+        Point ne = new Point((int) (si.end.getX() + x_move), (int) (si.end.getY() + y_move));
+        ShapeInfo nsi = new ShapeInfo(si.state, si.pc, ns, ne, ns.getX(), ns.getY(), si.width,
+            si.height);
+        nsi.shape = si.shape;
+        nsi.shading = si.shading;
+        nsi.primaryColor = si.primaryColor;
+        nsi.secondaryColor = si.secondaryColor;
+        CreateShapeCommand shape = new CreateShapeCommand(si.pc, ns, ne, si.sl, nsi);
+        copyList.addShape(shape);
+        CommandHistory.add(this);
+      }
     }
   }
 

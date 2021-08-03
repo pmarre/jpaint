@@ -1,9 +1,11 @@
 package main;
 
 //import controller.DrawRectangleStrategy;
+import controller.CreateShapeCommand;
 import controller.IJPaintController;
 import controller.JPaintController;
 import controller.MouseHandler;
+import java.util.Stack;
 import model.CopyList;
 import model.GraphicsContainer;
 import model.ListContainer;
@@ -35,17 +37,18 @@ public class Main {
         ShapeList shapelist = new ShapeList();
         ShapeList selectedShapes = new ShapeList();
         CopyList copyList = new CopyList();
+        Stack<CreateShapeCommand> undoStack = new Stack<CreateShapeCommand>();
+        Stack<CreateShapeCommand> redoStack = new Stack<CreateShapeCommand>();
 
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        ListContainer listContainer = new ListContainer(shapelist, selectedShapes, copyList);
+        ListContainer listContainer = new ListContainer(shapelist, selectedShapes, copyList, undoStack, redoStack);
         Graphics2D graphics2d = (Graphics2D) paintCanvas.getGraphics();
         GraphicsContainer gc = new GraphicsContainer(graphics2d);
         MouseHandler mh = new MouseHandler(appState, paintCanvas);
         paintCanvas.addMouseListener(mh);
-        //paintCanvas.repaint();
     }
 }
