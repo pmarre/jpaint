@@ -1,7 +1,7 @@
 package model.interfaces;
 
-public class IObserver {
-    void addObserver(){
 
-    }
+public interface IObserver {
+
+  public void update();
 }

@@ -3,15 +3,16 @@ package model;
 import view.interfaces.PaintCanvasBase;
 import controller.*;
 
-public class Undo {
+public class Redo {
 
   PaintCanvasBase pc;
 
-  public Undo(PaintCanvasBase paintCanvas) {
+  public Redo(PaintCanvasBase paintCanvas) {
     this.pc = paintCanvas;
   }
 
-  public void runUndo() {
-    //CommandHistory.undo();
+  public void runRedo() {
+    //CommandHistory.redo();
+
   }
 }
