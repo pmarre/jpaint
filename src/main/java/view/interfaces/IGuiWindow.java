@@ -5,5 +5,6 @@ import view.EventName;
 import javax.swing.*;
 
 public interface IGuiWindow {
-    JButton getButton(EventName eventName);
+
+  JButton getButton(EventName eventName);
 }

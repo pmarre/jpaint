@@ -6,24 +6,25 @@ import model.ShapeType;
 import model.MouseMode;
 
 public interface IApplicationState {
-    void setActiveShape();
 
-    void setActivePrimaryColor();
+  void setActiveShape();
 
-    void setActiveSecondaryColor();
+  void setActivePrimaryColor();
 
-    void setActiveShadingType();
+  void setActiveSecondaryColor();
 
-    void setActiveStartAndEndPointMode();
+  void setActiveShadingType();
 
-    ShapeType getActiveShapeType();
+  void setActiveStartAndEndPointMode();
 
-    ShapeColor getActivePrimaryColor();
+  ShapeType getActiveShapeType();
 
-    ShapeColor getActiveSecondaryColor();
+  ShapeColor getActivePrimaryColor();
 
-    ShapeShadingType getActiveShapeShadingType();
+  ShapeColor getActiveSecondaryColor();
 
-    MouseMode getActiveMouseMode();
+  ShapeShadingType getActiveShapeShadingType();
+
+  MouseMode getActiveMouseMode();
 
 }

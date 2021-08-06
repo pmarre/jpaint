@@ -1,11 +1,7 @@
 package controller;
 
-import model.ShapeColor;
 import model.ShapeInfo;
-import model.ShapeList;
 import model.interfaces.IShape;
-import model.interfaces.*;
-import view.interfaces.*;
 
 import java.awt.*;
 

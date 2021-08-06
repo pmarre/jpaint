@@ -5,14 +5,14 @@ import controller.*;
 
 public class Redo {
 
-        PaintCanvasBase pc;
+  PaintCanvasBase pc;
 
-        public Redo(PaintCanvasBase paintCanvas) {
-            this.pc = paintCanvas;
-        }
+  public Redo(PaintCanvasBase paintCanvas) {
+    this.pc = paintCanvas;
+  }
 
-        public void runRedo() {
-            //CommandHistory.redo();
+  public void runRedo() {
+    //CommandHistory.redo();
 
-    }
+  }
 }

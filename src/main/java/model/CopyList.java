@@ -7,9 +7,10 @@ import controller.CreateShapeCommand;
 import model.interfaces.IShape;
 
 
-
 public class CopyList {
+
   private ArrayList<CreateShapeCommand> copyList;
+
   public CopyList() {
     copyList = new ArrayList<CreateShapeCommand>();
   }

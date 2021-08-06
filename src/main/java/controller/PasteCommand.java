@@ -1,16 +1,15 @@
 package controller;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
 import model.ListContainer;
-import model.ShapeList;
+import model.ShapeCollection;
 import model.interfaces.ICommand;
 import model.interfaces.IUndoable;
 
 public class PasteCommand implements ICommand, IUndoable {
+
   static ArrayList<CreateShapeCommand> pastedList = new ArrayList<CreateShapeCommand>();
-  static ShapeList sl = ListContainer.getShapeList();
+  static ShapeCollection sl = ListContainer.getShapeList();
 
   @Override
   public void execute() {
@@ -25,7 +24,9 @@ public class PasteCommand implements ICommand, IUndoable {
 
   @Override
   public void undo() {
-    if (pastedList.size() < 1) return;
+    if (pastedList.size() < 1) {
+      return;
+    }
     for (CreateShapeCommand shape : pastedList) {
       sl.removeShape(shape);
     }
@@ -33,7 +34,9 @@ public class PasteCommand implements ICommand, IUndoable {
 
   @Override
   public void redo() {
-    if (pastedList.size() < 1) return;
+    if (pastedList.size() < 1) {
+      return;
+    }
     for (CreateShapeCommand shape : pastedList) {
       sl.addShape(shape);
     }

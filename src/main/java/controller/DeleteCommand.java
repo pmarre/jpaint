@@ -1,28 +1,24 @@
 package controller;
 
 import java.util.ArrayList;
-import java.util.Stack;
 import model.interfaces.ICommand;
 import model.ListContainer;
-import model.ShapeList;
-import model.interfaces.ICommand;
+import model.ShapeCollection;
 import model.interfaces.IUndoable;
 
 public class DeleteCommand implements ICommand, IUndoable {
-  private static ShapeList selected;
-  private static ShapeList shapeList;
+
+  private static ShapeCollection selected;
+  private static ShapeCollection shapeCollection;
   static ArrayList<CreateShapeCommand> deletedShapes = new ArrayList<CreateShapeCommand>();
-
-
 
   @Override
   public void execute() {
     selected = ListContainer.getSelectedShapes();
-    shapeList = ListContainer.getShapeList();
+    shapeCollection = ListContainer.getShapeList();
     for (CreateShapeCommand cs : selected.getShapes()) {
       ListContainer.getUndoStack().add(cs);
-      shapeList.removeShape(cs);
-      //cs.pc.repaint();
+      shapeCollection.removeShape(cs);
       deletedShapes.add(cs);
     }
     CommandHistory.add(this);
@@ -30,17 +26,17 @@ public class DeleteCommand implements ICommand, IUndoable {
 
   @Override
   public void undo() {
-    shapeList = ListContainer.getShapeList();
-   for (CreateShapeCommand cs : deletedShapes) {
-     shapeList.addShape(cs);
-   }
+    shapeCollection = ListContainer.getShapeList();
+    for (CreateShapeCommand cs : deletedShapes) {
+      shapeCollection.addShape(cs);
+    }
   }
 
   @Override
   public void redo() {
-    shapeList = ListContainer.getShapeList();
+    shapeCollection = ListContainer.getShapeList();
     for (CreateShapeCommand cs : deletedShapes) {
-      shapeList.removeShape(cs);
+      shapeCollection.removeShape(cs);
     }
   }
 }

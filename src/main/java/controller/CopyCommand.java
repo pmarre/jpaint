@@ -1,23 +1,20 @@
 package controller;
 
 import java.awt.Point;
-import java.util.List;
 import model.CopyList;
 import model.ShapeInfo;
-import model.ShapeList;
+import model.ShapeCollection;
 import model.interfaces.ICommand;
 import model.interfaces.IUndoable;
-import model.persistence.ApplicationState;
-import view.interfaces.PaintCanvasBase;
-import java.util.ArrayList;
 import model.ListContainer;
 
-public class CopyCommand implements  ICommand, IUndoable {
+public class CopyCommand implements ICommand, IUndoable {
+
   static Point start;
   static Point end;
   static ShapeInfo shapeInfo;
-  static ShapeList sl;
-  //static ShapeList selectedShapes;
+  static ShapeCollection sl;
+  //static ShapeCollection selectedShapes;
   static CopyList copyList;
 
   @Override

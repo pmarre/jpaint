@@ -1,11 +1,12 @@
 package view.interfaces;
 
 public interface IDialogChoice<T> {
-    String getDialogTitle();
 
-    String getDialogText();
+  String getDialogTitle();
 
-    T[] getDialogOptions();
+  String getDialogText();
 
-    T getCurrentSelection();
+  T[] getDialogOptions();
+
+  T getCurrentSelection();
 }
