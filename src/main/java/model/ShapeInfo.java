@@ -1,5 +1,6 @@
 package model;
 
+import controller.CreateShapeCommand;
 import model.persistence.ApplicationState;
 import view.interfaces.PaintCanvasBase;
 
@@ -21,6 +22,8 @@ public class ShapeInfo {
   public double x;
   public double y;
   public boolean isSelected;
+  public boolean inGroup;
+  public CreateShapeCommand outlineShape;
 
 
   public ShapeInfo(ApplicationState state, PaintCanvasBase pc, Point start,
@@ -38,5 +41,7 @@ public class ShapeInfo {
     this.y = y;
     this.pc = pc;
     this.isSelected = false;
+    this.inGroup = false;
+    this.outlineShape = null;
   }
 }

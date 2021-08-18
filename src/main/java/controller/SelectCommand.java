@@ -37,18 +37,44 @@ public class SelectCommand implements ICommand {
     selected.getShapes().clear();
     shapeCollection = ListContainer.getShapeList();
     tempList = new ShapeCollection();
-    System.out.println(shapeCollection.getShapes().size());
+    CreateShapeCommand outline_shape;
     for (CreateShapeCommand shape : shapeCollection.getShapes()) {
+
       if (shape.getEnd().getX() > start.getX() &&
           shape.getStart().getX() < end.getX() &&
           shape.getEnd().getY() > start.getY() &&
           shape.getStart().getY() < end.getY()) {
-        System.out.println("Collision");
-        CreateShapeCommand outline_shape = outlineSelected(shape);
-        selected.addShape(shape);
+
+        if (shape.shapeInfo.inGroup) {
+          outline_shape = shape.shapeInfo.outlineShape;
+          System.out.println("in group");
+          for (ShapeCollection sc : ListContainer.getGroupCollection()) {
+//            System.out.println("loop shape");
+            if (sc.getShapes().contains(shape)) {
+              for (CreateShapeCommand s : sc.getShapes()) {
+                selected.addShape(s);
+              }
+              break;
+//              selected.addShape(shape);
+//              selected.addShape(outline_shape);
+//              tempList.addShape(outline_shape);
+            }
+          }
+        }
+
+        else {
+          System.out.println("not in group");
+          outline_shape = outlineSelected(shape);
+          shape.shapeInfo.outlineShape = outline_shape;
+          selected.addShape(shape);
+        }
+
+
         selected.addShape(outline_shape);
         tempList.addShape(outline_shape);
       }
+
+
     }
 
     for (CreateShapeCommand cs : tempList.getShapes()) {
@@ -59,26 +85,21 @@ public class SelectCommand implements ICommand {
     if (selected.getShapes().size() == 0) {
       int count = 0;
       int size = shapeCollection.getShapes().size();
-      System.out.println("remove");
       while (count < size) {
         CreateShapeCommand s = shapeCollection.getShapes().get(count);
         if (s.shapeInfo.isSelected) {
           shapeCollection.removeShape(s);
           size--;
-          System.out.println("remove");
         } else {
           count++;
         }
-
       }
-
-
     }
+
     tempList.getShapes().clear();
   }
 
   public CreateShapeCommand outlineSelected(CreateShapeCommand shape) {
-    Graphics2D g2d = GraphicsSingleton.getG2D();
     ShapeInfo si = new ShapeInfo(shape.shapeInfo.state, shape.shapeInfo.pc, shape.shapeInfo.start,
         shape.shapeInfo.end, shape.shapeInfo.x - 5, shape.shapeInfo.y - 5,
         shape.shapeInfo.width + 10,
@@ -88,10 +109,10 @@ public class SelectCommand implements ICommand {
     si.start = ns;
     si.end = ne;
     si.shape = shape.shapeInfo.shape;
-    si.secondaryColor = ShapeColor.RED;
+    si.primaryColor = ShapeColor.LIGHT_GRAY;
     si.shading = ShapeShadingType.OUTLINE;
     si.isSelected = true;
-    CreateShapeCommand outline = new CreateShapeCommand(si.pc, si.start, si.end, si.sl, si);
+    CreateShapeCommand outline = new CreateShapeCommand(si.pc, si.start, si.end, si);
     shape.shapeInfo.pc.repaint();
     System.out.println("border");
     return outline;

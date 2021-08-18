@@ -16,7 +16,6 @@ import java.util.*;
 
 public class CreateShapeCommand implements ICommand, IUndoable {
 
-  //public Undo shapeInfo;
   ApplicationState appState;
   PaintCanvasBase pc;
   Point start;
@@ -28,9 +27,7 @@ public class CreateShapeCommand implements ICommand, IUndoable {
   CreateShapeCommand csc;
   public ShapeInfo shapeInfo;
 
-
-  public CreateShapeCommand(PaintCanvasBase pc, Point start, Point end, ShapeCollection sl,
-      ShapeInfo si) {
+  public CreateShapeCommand(PaintCanvasBase pc, Point start, Point end, ShapeInfo si) {
 
     this.appState = si.state;
     this.pc = pc;
@@ -57,6 +54,7 @@ public class CreateShapeCommand implements ICommand, IUndoable {
 
 
   public void execute() {
+    System.out.println("count: " + ListContainer.getShapeList().getShapes().size());
     CommandHistory.add(this);
     ListContainer.getUndoStack().add(this);
   }
@@ -65,6 +63,11 @@ public class CreateShapeCommand implements ICommand, IUndoable {
   public Point[] getXY() {
     Point[] xy = {start, end};
     return xy;
+  }
+
+
+  public void addShapeOutline(CreateShapeCommand outline) {
+
   }
 
   @Override

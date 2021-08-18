@@ -74,7 +74,7 @@ public class MouseHandler extends MouseAdapter {
     switch (MM) {
       case DRAW:
 
-        csc = new CreateShapeCommand(paintCanvas, start, end, shapeCollection, shapeInfo);
+        csc = new CreateShapeCommand(paintCanvas, start, end, shapeInfo);
 
         shapeCollection.registerObserver(csc);
         shapeCollection.addShape(csc);

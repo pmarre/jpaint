@@ -18,11 +18,11 @@ public class GraphicsSingleton {
     return uniqueG2D;
   }
 
-  public static void setG2D(Graphics2D g) {
+  public void setG2D(Graphics2D g) {
     g2d = g;
   }
 
-  public static Graphics2D getG2D() {
+  public Graphics2D getG2D() {
     return g2d;
   }
 

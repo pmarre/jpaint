@@ -30,13 +30,13 @@ public class DrawEllipseStrategy implements IShape {
 
       case OUTLINE:
         if (si.isSelected) {
-          Stroke dash = new BasicStroke(5, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_BEVEL,
+          Stroke dash = new BasicStroke(3, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_BEVEL,
               0, new float[]{10}, 0);
           g2d.setStroke(dash);
         } else {
           g2d.setStroke(new BasicStroke(3));
         }
-        g2d.setColor(secondaryColor);
+        g2d.setColor(primaryColor);
         g2d.drawOval(x, y, w, h);
         break;
 

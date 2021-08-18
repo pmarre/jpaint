@@ -35,7 +35,7 @@ public class CopyCommand implements ICommand, IUndoable {
         nsi.shading = si.shading;
         nsi.primaryColor = si.primaryColor;
         nsi.secondaryColor = si.secondaryColor;
-        CreateShapeCommand shape = new CreateShapeCommand(si.pc, ns, ne, si.sl, nsi);
+        CreateShapeCommand shape = new CreateShapeCommand(si.pc, ns, ne, nsi);
         copyList.addShape(shape);
         CommandHistory.add(this);
       }

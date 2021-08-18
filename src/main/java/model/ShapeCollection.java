@@ -31,9 +31,15 @@ public class ShapeCollection {
     System.out.println("Removed: " + shape);
   }
 
+
   public void replaceShape(CreateShapeCommand shape, CreateShapeCommand new_shape) {
     shapeList.remove(shape);
     shapeList.add(new_shape);
+    notifyObservers();
+  }
+
+  public void clearShapes() {
+    shapeList.clear();
     notifyObservers();
   }
 
@@ -54,7 +60,7 @@ public class ShapeCollection {
   public void notifyObservers() {
     for (CreateShapeCommand observer : observers) {
       observer.update();
-      observer.shapeInfo.pc.repaint();
+      //observer.shapeInfo.pc.repaint();
     }
   }
 

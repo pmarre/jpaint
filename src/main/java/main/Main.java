@@ -6,6 +6,7 @@ import controller.CreateShapeCommand;
 import controller.IJPaintController;
 import controller.JPaintController;
 import controller.MouseHandler;
+import java.util.ArrayList;
 import java.util.Stack;
 import model.CopyList;
 import model.GraphicsSingleton;
@@ -36,7 +37,7 @@ public class Main {
     ShapeCollection selectedShapes = new ShapeCollection();
     CopyList copyList = new CopyList();
     Stack<CreateShapeCommand> undoStack = new Stack<CreateShapeCommand>();
-    Stack<CreateShapeCommand> redoStack = new Stack<CreateShapeCommand>();
+    ArrayList<ShapeCollection> groups = new ArrayList<ShapeCollection>();
 
     try {
       Thread.sleep(500);
@@ -44,7 +45,7 @@ public class Main {
       e.printStackTrace();
     }
     ListContainer listContainer = new ListContainer(shapelist, selectedShapes, copyList, undoStack,
-        redoStack);
+        groups);
     Graphics2D graphics2d = (Graphics2D) paintCanvas.getGraphics();
     GraphicsSingleton gs = GraphicsSingleton.getInstance();
     gs.setG2D(graphics2d);

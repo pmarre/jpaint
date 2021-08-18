@@ -38,11 +38,10 @@ public class MoveCommand implements ICommand, IUndoable {
     CreateShapeCommand oldShape = null;
     ShapeCollection tmpOld = new ShapeCollection();
     ShapeCollection tmpNew = new ShapeCollection();
-    int count = 1;
     for (CreateShapeCommand s : selectedShapes.getShapes()) {
       shapeInfo = s.shapeInfo;
       pc = shapeInfo.pc;
-      System.out.println("Selected shape: " + shapeInfo.shape);
+
       Point ns = new Point((int) (shapeInfo.start.getX() + x_move),
           (int) (shapeInfo.start.getY() + y_move));
       Point ne = new Point((int) (shapeInfo.end.getX() + x_move),
@@ -56,14 +55,18 @@ public class MoveCommand implements ICommand, IUndoable {
       if (s.shapeInfo.isSelected) {
         nsi.isSelected = true;
       }
-      CreateShapeCommand shape = new CreateShapeCommand(shapeInfo.pc, ns, ne, shapeInfo.sl, nsi);
+
+      if (s.shapeInfo.inGroup) {
+        nsi.inGroup = true;
+      }
+
+      nsi.outlineShape = s.shapeInfo.outlineShape;
+      CreateShapeCommand shape = new CreateShapeCommand(shapeInfo.pc, ns, ne, nsi);
       sl.replaceShape(s, shape);
       tmpNew.addShape(shape);
       tmpOld.addShape(s);
       oldL.add(s);
       newL.add(shape);
-      System.out.println("Swap #: " + count);
-      count++;
     }
 
     // Need better solution here
@@ -71,6 +74,7 @@ public class MoveCommand implements ICommand, IUndoable {
     for (CreateShapeCommand cs : tmpOld.getShapes()) {
       int i = tmpOld.getShapes().indexOf(cs);
       selectedShapes.replaceShape(cs, tmpNew.getShapes().get(i));
+      cs.update();
 
     }
     tmpNew.getShapes().clear();
