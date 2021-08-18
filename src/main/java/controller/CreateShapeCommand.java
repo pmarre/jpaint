@@ -54,7 +54,6 @@ public class CreateShapeCommand implements ICommand, IUndoable {
 
 
   public void execute() {
-    System.out.println("count: " + ListContainer.getShapeList().getShapes().size());
     CommandHistory.add(this);
     ListContainer.getUndoStack().add(this);
   }
@@ -83,11 +82,6 @@ public class CreateShapeCommand implements ICommand, IUndoable {
     ListContainer.getShapeList().removeShape(c);
     redoStack.add(c);
     System.out.println(sl.size());
-//      CommandHistory.undo();
-//      for (CreateShapeCommand c : ListContainer.getShapeList().getShapes()) {
-//        c.shapeInfo.pc.repaint();
-//        break;
-//      }
   }
 
   @Override

@@ -60,7 +60,7 @@ public class ShapeCollection {
   public void notifyObservers() {
     for (CreateShapeCommand observer : observers) {
       observer.update();
-      //observer.shapeInfo.pc.repaint();
+      observer.shapeInfo.pc.repaint();
     }
   }
 

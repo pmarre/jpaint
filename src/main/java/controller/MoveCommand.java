@@ -34,8 +34,7 @@ public class MoveCommand implements ICommand, IUndoable {
     double y_move = end.getY() - start.getY();
     System.out.println(
         "selected shapes before move: " + ListContainer.getSelectedShapes().getShapes().size());
-    CreateShapeCommand tempShape = null;
-    CreateShapeCommand oldShape = null;
+
     ShapeCollection tmpOld = new ShapeCollection();
     ShapeCollection tmpNew = new ShapeCollection();
     for (CreateShapeCommand s : selectedShapes.getShapes()) {
