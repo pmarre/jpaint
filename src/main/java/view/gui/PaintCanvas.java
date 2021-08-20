@@ -1,12 +1,12 @@
 package view.gui;
 
-import controller.CreateShapeCommand;
+import controller.NullObject;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import model.GraphicsSingleton;
 import model.ListContainer;
-import view.interfaces.PaintCanvasBase;
-
-import java.awt.*;
 import model.ShapeCollection;
+import view.interfaces.PaintCanvasBase;
 
 
 public class PaintCanvas extends PaintCanvasBase {
@@ -25,23 +25,21 @@ public class PaintCanvas extends PaintCanvasBase {
   public void paint(Graphics g) {
     Graphics2D g2d = (Graphics2D) g;
     super.paint(g2d);
-    ShapeCollection sl = ListContainer.getShapeList();
+    ShapeCollection mainShapeColletion = ListContainer.getShapeList();
     GraphicsSingleton.getInstance().setG2D(g2d);
-      if (sl == null) {
-          return;
-      }
-    int count = 0;
-    // Need a better way for this
-    for (CreateShapeCommand csc : sl.getShapes()) {
-      if (count < 1) {
-        csc.update();
-        if (ListContainer.getSelectedShapes().getShapes().size() > 0) {
-          ListContainer.getSelectedShapes().getShapes().get(0).update();
-        }
-      } else {
-        break;
-      }
+    if (mainShapeColletion == null) {
+      NullObject n = new NullObject();
+      n.execute();
+      return;
     }
+    if (mainShapeColletion.getShapes().size() > 0) {
+      mainShapeColletion.getShapes().get(0).update();
+    }
+
+    if (ListContainer.getSelectedShapes().getShapes().size() > 0) {
+      ListContainer.getSelectedShapes().getShapes().get(0).update();
+    }
+
     System.out.println("Time to repaint");
   }
 }

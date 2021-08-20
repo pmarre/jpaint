@@ -1,9 +1,9 @@
 package model;
 
+import controller.CreateShapeCommand;
+import java.awt.Point;
 import model.persistence.ApplicationState;
 import view.interfaces.PaintCanvasBase;
-
-import java.awt.*;
 
 public class ShapeInfo {
 
@@ -21,6 +21,8 @@ public class ShapeInfo {
   public double x;
   public double y;
   public boolean isSelected;
+  public boolean inGroup;
+  public CreateShapeCommand outlineShape;
 
 
   public ShapeInfo(ApplicationState state, PaintCanvasBase pc, Point start,
@@ -38,5 +40,7 @@ public class ShapeInfo {
     this.y = y;
     this.pc = pc;
     this.isSelected = false;
+    this.inGroup = false;
+    this.outlineShape = null;
   }
 }

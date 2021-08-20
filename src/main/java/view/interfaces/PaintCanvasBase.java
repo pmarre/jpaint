@@ -1,7 +1,7 @@
 package view.interfaces;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Graphics2D;
+import javax.swing.JComponent;
 
 public abstract class PaintCanvasBase extends JComponent {
 

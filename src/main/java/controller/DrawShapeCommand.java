@@ -1,12 +1,11 @@
 package controller;
 
+import java.awt.Graphics2D;
+import java.awt.Point;
 import model.GraphicsSingleton;
 import model.ListContainer;
 import model.ShapeCollection;
 import model.interfaces.IShape;
-
-import java.awt.*;
-
 import model.persistence.ApplicationState;
 import view.interfaces.PaintCanvasBase;
 

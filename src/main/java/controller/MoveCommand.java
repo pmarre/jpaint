@@ -1,14 +1,13 @@
 package controller;
 
+import java.awt.Point;
+import java.util.ArrayList;
 import model.ListContainer;
 import model.ShapeCollection;
 import model.ShapeInfo;
 import model.interfaces.ICommand;
 import model.interfaces.IUndoable;
 import view.interfaces.PaintCanvasBase;
-
-import java.awt.*;
-import java.util.ArrayList;
 
 public class MoveCommand implements ICommand, IUndoable {
 
@@ -34,15 +33,13 @@ public class MoveCommand implements ICommand, IUndoable {
     double y_move = end.getY() - start.getY();
     System.out.println(
         "selected shapes before move: " + ListContainer.getSelectedShapes().getShapes().size());
-    CreateShapeCommand tempShape = null;
-    CreateShapeCommand oldShape = null;
+
     ShapeCollection tmpOld = new ShapeCollection();
     ShapeCollection tmpNew = new ShapeCollection();
-    int count = 1;
     for (CreateShapeCommand s : selectedShapes.getShapes()) {
       shapeInfo = s.shapeInfo;
       pc = shapeInfo.pc;
-      System.out.println("Selected shape: " + shapeInfo.shape);
+
       Point ns = new Point((int) (shapeInfo.start.getX() + x_move),
           (int) (shapeInfo.start.getY() + y_move));
       Point ne = new Point((int) (shapeInfo.end.getX() + x_move),
@@ -56,21 +53,25 @@ public class MoveCommand implements ICommand, IUndoable {
       if (s.shapeInfo.isSelected) {
         nsi.isSelected = true;
       }
-      CreateShapeCommand shape = new CreateShapeCommand(shapeInfo.pc, ns, ne, shapeInfo.sl, nsi);
+
+      if (s.shapeInfo.inGroup) {
+        nsi.inGroup = true;
+      }
+
+      nsi.outlineShape = s.shapeInfo.outlineShape;
+      CreateShapeCommand shape = new CreateShapeCommand(shapeInfo.pc, ns, ne, nsi);
       sl.replaceShape(s, shape);
       tmpNew.addShape(shape);
       tmpOld.addShape(s);
       oldL.add(s);
       newL.add(shape);
-      System.out.println("Swap #: " + count);
-      count++;
     }
 
     // Need better solution here
-
     for (CreateShapeCommand cs : tmpOld.getShapes()) {
       int i = tmpOld.getShapes().indexOf(cs);
       selectedShapes.replaceShape(cs, tmpNew.getShapes().get(i));
+      cs.update();
 
     }
     tmpNew.getShapes().clear();
@@ -88,24 +89,32 @@ public class MoveCommand implements ICommand, IUndoable {
 
   @Override
   public void undo() {
-    CommandHistory.undo();
+    // CommandHistory.undo();
 //       Temporary fix, only works with one move. If you move more than once then it prints all shapes
-    for (CreateShapeCommand cs : newL) {
-      sl.removeShape(cs);
-    }
-    for (CreateShapeCommand cs : oldL) {
-      sl.addShape(cs);
-    }
+//    for (CreateShapeCommand cs : newL) {
+//
+//      ListContainer.getShapeList().removeShape(cs);
+//      cs.shapeInfo.pc.repaint();
+//
+//    }
+//
+//    for (CreateShapeCommand cs : oldL) {
+//      ListContainer.getShapeList().addShape(cs);
+//      cs.shapeInfo.pc.repaint();
+//    }
   }
 
   @Override
   public void redo() {
     //       Temporary fix, only works with one move. If you move more than once then it prints all shapes
     for (CreateShapeCommand cs : newL) {
-      sl.addShape(cs);
+      ListContainer.getShapeList().addShape(cs);
+      cs.shapeInfo.pc.repaint();
     }
+
     for (CreateShapeCommand cs : oldL) {
-      sl.removeShape(cs);
+      ListContainer.getShapeList().removeShape(cs);
+      cs.shapeInfo.pc.repaint();
     }
   }
 }

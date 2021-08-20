@@ -1,21 +1,18 @@
 package controller;
 
-import model.ShapeCollection;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Stroke;
 import model.ShapeInfo;
-import model.interfaces.*;
-import view.interfaces.PaintCanvasBase;
-
-import java.awt.*;
+import model.interfaces.IShape;
 
 public class DrawRectangleStrategy implements IShape {
 
-  IApplicationState app_state;
-  PaintCanvasBase paintcanvas;
   int x;
   int y;
   int w;
   int h;
-  ShapeCollection sl;
 
 
   public void draw(Graphics2D g2d, CreateShapeCommand csc) {
@@ -34,13 +31,13 @@ public class DrawRectangleStrategy implements IShape {
         break;
       case OUTLINE:
         if (si.isSelected) {
-          Stroke dash = new BasicStroke(5, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_BEVEL,
-              0, new float[]{10}, 0);
+          Stroke dash = new BasicStroke(3, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND,
+              0, new float[]{15}, 5);
           g2d.setStroke(dash);
         } else {
           g2d.setStroke(new BasicStroke(3));
         }
-        g2d.setColor(secondaryColor);
+        g2d.setColor(primaryColor);
         g2d.drawRect(x, y, w, h);
         break;
       case OUTLINE_AND_FILLED_IN:

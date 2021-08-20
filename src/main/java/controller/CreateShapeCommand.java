@@ -2,6 +2,7 @@ package controller;
 
 import static controller.DrawShapeCommand.DrawStrategy;
 
+import java.awt.Point;
 import model.ListContainer;
 import model.ShapeCollection;
 import model.ShapeInfo;
@@ -10,28 +11,16 @@ import model.interfaces.IUndoable;
 import model.persistence.ApplicationState;
 import view.interfaces.PaintCanvasBase;
 
-import java.awt.*;
-import java.lang.*;
-import java.util.*;
-
 public class CreateShapeCommand implements ICommand, IUndoable {
 
-  //public Undo shapeInfo;
+  public ShapeInfo shapeInfo;
   ApplicationState appState;
   PaintCanvasBase pc;
   Point start;
   Point end;
   ShapeCollection shapelist;
-  ArrayList<CreateShapeCommand> sl;
-  Stack<CreateShapeCommand> undoStack = new Stack<CreateShapeCommand>();
-  Stack<CreateShapeCommand> redoStack = new Stack<CreateShapeCommand>();
-  CreateShapeCommand csc;
-  public ShapeInfo shapeInfo;
 
-
-  public CreateShapeCommand(PaintCanvasBase pc, Point start, Point end, ShapeCollection sl,
-      ShapeInfo si) {
-
+  public CreateShapeCommand(PaintCanvasBase pc, Point start, Point end, ShapeInfo si) {
     this.appState = si.state;
     this.pc = pc;
     this.start = start;
@@ -58,7 +47,6 @@ public class CreateShapeCommand implements ICommand, IUndoable {
 
   public void execute() {
     CommandHistory.add(this);
-    ListContainer.getUndoStack().add(this);
   }
 
 
@@ -69,32 +57,16 @@ public class CreateShapeCommand implements ICommand, IUndoable {
 
   @Override
   public void undo() {
-    System.out.println("undo");
-    sl = ListContainer.getShapeList().getShapes();
-    undoStack = ListContainer.getUndoStack();
-    System.out.println(sl.size());
-    if (undoStack.size() == 0) {
-      return;
+    CreateShapeCommand outline;
+    if (this.shapeInfo.outlineShape != null) {
+      outline = this.shapeInfo.outlineShape;
+      ListContainer.getShapeList().removeShape(outline);
     }
-    CreateShapeCommand c = undoStack.pop();
-    ListContainer.getShapeList().removeShape(c);
-    redoStack.add(c);
-    System.out.println(sl.size());
-//      CommandHistory.undo();
-//      for (CreateShapeCommand c : ListContainer.getShapeList().getShapes()) {
-//        c.shapeInfo.pc.repaint();
-//        break;
-//      }
+    ListContainer.getShapeList().removeShape(this);
   }
 
   @Override
   public void redo() {
-    System.out.println("redo");
-    if (redoStack.size() == 0) {
-      return;
-    }
-    CreateShapeCommand c = redoStack.pop();
-    ListContainer.getShapeList().addShape(c);
-    undoStack.add(c);
+    ListContainer.getShapeList().addShape(this);
   }
 }

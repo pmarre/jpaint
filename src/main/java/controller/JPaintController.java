@@ -1,9 +1,7 @@
 package controller;
 
 import model.interfaces.IApplicationState;
-import model.interfaces.ICommand;
 import view.EventName;
-import view.interfaces.IEventCallback;
 import view.interfaces.IUiModule;
 
 public class JPaintController implements IJPaintController {
@@ -35,6 +33,8 @@ public class JPaintController implements IJPaintController {
     uiModule.addEvent(EventName.COPY, () -> new CopyCommand().execute());
     uiModule.addEvent(EventName.PASTE, () -> new PasteCommand().execute());
     uiModule.addEvent(EventName.DELETE, () -> new DeleteCommand().execute());
+    uiModule.addEvent(EventName.GROUP, () -> new GroupCommand().execute());
+    uiModule.addEvent(EventName.UNGROUP, () -> new UngroupCommand().execute());
   }
 }
 

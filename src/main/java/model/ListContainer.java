@@ -1,6 +1,7 @@
 package model;
 
 import controller.CreateShapeCommand;
+import java.util.ArrayList;
 import java.util.Stack;
 
 public class ListContainer {
@@ -10,14 +11,15 @@ public class ListContainer {
   static ShapeCollection selected;
   static Stack<CreateShapeCommand> undoStack;
   static Stack<CreateShapeCommand> redoStack;
+  static ArrayList<ShapeCollection> groups;
 
   public ListContainer(ShapeCollection shapeCollection, ShapeCollection selected, CopyList copyList,
-      Stack<CreateShapeCommand> undoStack, Stack<CreateShapeCommand> redoStack) {
+      Stack<CreateShapeCommand> undoStack, ArrayList<ShapeCollection> groups) {
     this.shapeCollection = shapeCollection;
     this.copyList = copyList;
     this.selected = selected;
     this.undoStack = undoStack;
-    this.redoStack = redoStack;
+    this.groups = groups;
   }
 
   public static ShapeCollection getShapeList() {
@@ -36,8 +38,8 @@ public class ListContainer {
     return undoStack;
   }
 
-  public static Stack<CreateShapeCommand> getRedoStack() {
-    return redoStack;
+  public static ArrayList<ShapeCollection> getGroupCollection() {
+    return groups;
   }
 
 }

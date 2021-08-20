@@ -1,16 +1,16 @@
 package controller;
 
 import java.util.ArrayList;
-import model.interfaces.ICommand;
 import model.ListContainer;
 import model.ShapeCollection;
+import model.interfaces.ICommand;
 import model.interfaces.IUndoable;
 
 public class DeleteCommand implements ICommand, IUndoable {
 
+  static ArrayList<CreateShapeCommand> deletedShapes = new ArrayList<CreateShapeCommand>();
   private static ShapeCollection selected;
   private static ShapeCollection shapeCollection;
-  static ArrayList<CreateShapeCommand> deletedShapes = new ArrayList<CreateShapeCommand>();
 
   @Override
   public void execute() {
@@ -21,6 +21,7 @@ public class DeleteCommand implements ICommand, IUndoable {
       shapeCollection.removeShape(cs);
       deletedShapes.add(cs);
     }
+    selected.clearShapes();
     CommandHistory.add(this);
   }
 

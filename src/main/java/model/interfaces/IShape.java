@@ -1,9 +1,7 @@
 package model.interfaces;
 
 import controller.CreateShapeCommand;
-import view.interfaces.PaintCanvasBase;
-
-import java.awt.*;
+import java.awt.Graphics2D;
 
 public interface IShape {
 

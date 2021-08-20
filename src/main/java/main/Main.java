@@ -6,6 +6,8 @@ import controller.CreateShapeCommand;
 import controller.IJPaintController;
 import controller.JPaintController;
 import controller.MouseHandler;
+import java.awt.Graphics2D;
+import java.util.ArrayList;
 import java.util.Stack;
 import model.CopyList;
 import model.GraphicsSingleton;
@@ -16,10 +18,8 @@ import view.gui.Gui;
 import view.gui.GuiWindow;
 import view.gui.PaintCanvas;
 import view.interfaces.IGuiWindow;
-import view.interfaces.PaintCanvasBase;
 import view.interfaces.IUiModule;
-
-import java.awt.*;
+import view.interfaces.PaintCanvasBase;
 // test
 
 // import controller.CommandHistory;
@@ -36,7 +36,7 @@ public class Main {
     ShapeCollection selectedShapes = new ShapeCollection();
     CopyList copyList = new CopyList();
     Stack<CreateShapeCommand> undoStack = new Stack<CreateShapeCommand>();
-    Stack<CreateShapeCommand> redoStack = new Stack<CreateShapeCommand>();
+    ArrayList<ShapeCollection> groups = new ArrayList<ShapeCollection>();
 
     try {
       Thread.sleep(500);
@@ -44,7 +44,7 @@ public class Main {
       e.printStackTrace();
     }
     ListContainer listContainer = new ListContainer(shapelist, selectedShapes, copyList, undoStack,
-        redoStack);
+        groups);
     Graphics2D graphics2d = (Graphics2D) paintCanvas.getGraphics();
     GraphicsSingleton gs = GraphicsSingleton.getInstance();
     gs.setG2D(graphics2d);
