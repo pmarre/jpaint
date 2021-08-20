@@ -1,9 +1,7 @@
 package controller;
 
 import model.interfaces.IApplicationState;
-import model.interfaces.ICommand;
 import view.EventName;
-import view.interfaces.IEventCallback;
 import view.interfaces.IUiModule;
 
 public class JPaintController implements IJPaintController {

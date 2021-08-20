@@ -1,14 +1,13 @@
 package controller;
 
+import java.awt.Point;
+import java.util.ArrayList;
 import model.ListContainer;
 import model.ShapeCollection;
 import model.ShapeInfo;
 import model.interfaces.ICommand;
 import model.interfaces.IUndoable;
 import view.interfaces.PaintCanvasBase;
-
-import java.awt.*;
-import java.util.ArrayList;
 
 public class MoveCommand implements ICommand, IUndoable {
 
@@ -69,7 +68,6 @@ public class MoveCommand implements ICommand, IUndoable {
     }
 
     // Need better solution here
-
     for (CreateShapeCommand cs : tmpOld.getShapes()) {
       int i = tmpOld.getShapes().indexOf(cs);
       selectedShapes.replaceShape(cs, tmpNew.getShapes().get(i));
@@ -91,24 +89,32 @@ public class MoveCommand implements ICommand, IUndoable {
 
   @Override
   public void undo() {
-    CommandHistory.undo();
+    // CommandHistory.undo();
 //       Temporary fix, only works with one move. If you move more than once then it prints all shapes
-    for (CreateShapeCommand cs : newL) {
-      sl.removeShape(cs);
-    }
-    for (CreateShapeCommand cs : oldL) {
-      sl.addShape(cs);
-    }
+//    for (CreateShapeCommand cs : newL) {
+//
+//      ListContainer.getShapeList().removeShape(cs);
+//      cs.shapeInfo.pc.repaint();
+//
+//    }
+//
+//    for (CreateShapeCommand cs : oldL) {
+//      ListContainer.getShapeList().addShape(cs);
+//      cs.shapeInfo.pc.repaint();
+//    }
   }
 
   @Override
   public void redo() {
     //       Temporary fix, only works with one move. If you move more than once then it prints all shapes
     for (CreateShapeCommand cs : newL) {
-      sl.addShape(cs);
+      ListContainer.getShapeList().addShape(cs);
+      cs.shapeInfo.pc.repaint();
     }
+
     for (CreateShapeCommand cs : oldL) {
-      sl.removeShape(cs);
+      ListContainer.getShapeList().removeShape(cs);
+      cs.shapeInfo.pc.repaint();
     }
   }
 }

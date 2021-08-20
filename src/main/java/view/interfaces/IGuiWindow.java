@@ -1,8 +1,7 @@
 package view.interfaces;
 
+import javax.swing.JButton;
 import view.EventName;
-
-import javax.swing.*;
 
 public interface IGuiWindow {
 

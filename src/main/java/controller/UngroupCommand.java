@@ -1,73 +1,52 @@
 package controller;
 
-import java.awt.Point;
+import java.util.Stack;
 import model.ListContainer;
 import model.ShapeCollection;
-import model.ShapeColor;
-import model.ShapeInfo;
-import model.ShapeShadingType;
 import model.interfaces.ICommand;
+import model.interfaces.IUndoable;
 
-public class UngroupCommand implements ICommand {
+public class UngroupCommand implements ICommand, IUndoable {
+
+  public Stack<ShapeCollection> undoStack = new Stack<ShapeCollection>();
 
   @Override
   public void execute() {
-    CreateShapeCommand outline;
     ShapeCollection temp = new ShapeCollection();
     int index = 0;
+    if (ListContainer.getSelectedShapes().getShapes().size() == 0) {
+      return;
+    }
     for (CreateShapeCommand shape : ListContainer.getSelectedShapes().getShapes()) {
       // if shape is in a group, remove
       if (shape.shapeInfo.inGroup) {
         shape.shapeInfo.inGroup = false;
-        CreateShapeCommand new_outline = outlineSelected(shape);
-        temp.addShape(new_outline);
-        for (ShapeCollection sc : ListContainer.getGroupCollection()) {
-          if (sc.getShapes().contains(shape)) index = ListContainer.getGroupCollection().indexOf(sc);
+        for (ShapeCollection group : ListContainer.getGroupCollection()) {
+          if (group.getShapes().contains(shape)) {
+            index = ListContainer.getGroupCollection().indexOf(group);
+          }
         }
       }
-
       // if shape is a selection border, remove
       if (shape.shapeInfo.isSelected) {
         ListContainer.getShapeList().removeShape(shape);
       }
-
-//      outline = shape.shapeInfo.outlineShape;
-//      shape.shapeInfo.inGroup = false;
-//      ListContainer.getShapeList().removeShape(outline);
-
-
-//      shape.shapeInfo.outlineShape = new_outline;
-//      ListContainer.getShapeList().addShape(new_outline);
-      //ListContainer.getSelectedShapes().addShape(new_outline);
     }
+    undoStack.add(ListContainer.getGroupCollection().get(index));
     ListContainer.getGroupCollection().remove(index);
-  for (CreateShapeCommand cs : temp.getShapes()) {
-    ListContainer.getShapeList().addShape(cs);
-  }
-  }
-
-  public CreateShapeCommand outlineSelected(CreateShapeCommand shape) {
-    ShapeInfo si = new ShapeInfo(shape.shapeInfo.state, shape.shapeInfo.pc, shape.shapeInfo.start,
-        shape.shapeInfo.end, shape.shapeInfo.x - 5, shape.shapeInfo.y - 5,
-        shape.shapeInfo.width + 10,
-        shape.shapeInfo.height + 10);
-    Point ns = new Point((int) si.start.getX() - 5, (int) si.start.getY() - 5);
-    Point ne = new Point((int) si.end.getX() - 5, (int) si.end.getY() - 5);
-    si.start = ns;
-    si.end = ne;
-    si.shape = shape.shapeInfo.shape;
-    si.primaryColor = ShapeColor.LIGHT_GRAY;
-    si.shading = ShapeShadingType.OUTLINE;
-    si.isSelected = true;
-    CreateShapeCommand outline = new CreateShapeCommand(si.pc, si.start, si.end, si);
-    shape.shapeInfo.pc.repaint();
-    System.out.println("border");
-    return outline;
-
+    for (CreateShapeCommand cs : temp.getShapes()) {
+      ListContainer.getShapeList().addShape(cs);
+    }
+    CommandHistory.add(this);
   }
 
+  @Override
+  public void undo() {
+    CommandHistory.undo();
+  }
 
-
-
-
+  @Override
+  public void redo() {
+    CommandHistory.redo();
+  }
 }

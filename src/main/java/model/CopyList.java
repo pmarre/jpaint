@@ -2,9 +2,6 @@ package model;
 
 import controller.CreateShapeCommand;
 import java.util.ArrayList;
-import model.interfaces.IUndoable;
-import controller.CreateShapeCommand;
-import model.interfaces.IShape;
 
 
 public class CopyList {

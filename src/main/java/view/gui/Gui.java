@@ -1,7 +1,7 @@
 package view.gui;
 
-import javax.swing.*;
-
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import view.EventName;
 import view.interfaces.IDialogChoice;
 import view.interfaces.IEventCallback;

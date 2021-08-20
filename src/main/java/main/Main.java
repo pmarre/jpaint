@@ -6,6 +6,7 @@ import controller.CreateShapeCommand;
 import controller.IJPaintController;
 import controller.JPaintController;
 import controller.MouseHandler;
+import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Stack;
 import model.CopyList;
@@ -17,10 +18,8 @@ import view.gui.Gui;
 import view.gui.GuiWindow;
 import view.gui.PaintCanvas;
 import view.interfaces.IGuiWindow;
-import view.interfaces.PaintCanvasBase;
 import view.interfaces.IUiModule;
-
-import java.awt.*;
+import view.interfaces.PaintCanvasBase;
 // test
 
 // import controller.CommandHistory;

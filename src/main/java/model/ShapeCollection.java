@@ -1,19 +1,15 @@
 package model;
 
-import java.awt.Paint;
-import model.interfaces.IUndoable;
 import controller.CreateShapeCommand;
-import model.interfaces.IShape;
-
 import java.util.ArrayList;
 import view.gui.PaintCanvas;
 import view.interfaces.PaintCanvasBase;
 
 public class ShapeCollection {
 
+  static PaintCanvasBase pc = new PaintCanvas();
   private ArrayList<CreateShapeCommand> shapeList;
   private ArrayList<CreateShapeCommand> observers = new ArrayList<CreateShapeCommand>();
-  static PaintCanvasBase pc = new PaintCanvas();
 
   public ShapeCollection() {
     shapeList = new ArrayList<CreateShapeCommand>();
@@ -22,13 +18,11 @@ public class ShapeCollection {
   public void addShape(CreateShapeCommand shape) {
     shapeList.add(shape);
     notifyObservers();
-    System.out.println("Added to shapelist: " + shape);
   }
 
   public void removeShape(CreateShapeCommand shape) {
     shapeList.remove(shape);
     notifyObservers();
-    System.out.println("Removed: " + shape);
   }
 
 
@@ -40,6 +34,10 @@ public class ShapeCollection {
 
   public void clearShapes() {
     shapeList.clear();
+    notifyObservers();
+  }
+
+  public void updateCanvas() {
     notifyObservers();
   }
 

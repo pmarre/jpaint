@@ -1,27 +1,25 @@
 package controller;
 
-import model.GraphicsSingleton;
+import java.awt.Point;
+import java.util.Iterator;
 import model.ListContainer;
+import model.ShapeCollection;
 import model.ShapeColor;
 import model.ShapeInfo;
-import model.ShapeCollection;
 import model.ShapeShadingType;
 import model.interfaces.ICommand;
 import model.persistence.ApplicationState;
-
-import java.awt.*;
-
 import view.interfaces.PaintCanvasBase;
 
 public class SelectCommand implements ICommand {
 
+  static ShapeCollection shapeCollection;
+  static ShapeCollection selected;
+  static ShapeCollection tempList = new ShapeCollection();
   Point start;
   Point end;
   PaintCanvasBase pc;
   ApplicationState state;
-  static ShapeCollection shapeCollection;
-  static ShapeCollection selected;
-  static ShapeCollection tempList = new ShapeCollection();
 
   public SelectCommand(Point start, Point end, PaintCanvasBase pc, ApplicationState state) {
     this.start = start;
@@ -34,47 +32,44 @@ public class SelectCommand implements ICommand {
   @Override
   public void execute() {
     selected = ListContainer.getSelectedShapes();
-    selected.getShapes().clear();
+    ListContainer.getSelectedShapes().getShapes().clear();
     shapeCollection = ListContainer.getShapeList();
     tempList = new ShapeCollection();
     CreateShapeCommand outline_shape;
-    for (CreateShapeCommand shape : shapeCollection.getShapes()) {
+    Iterator shape_iter = shapeCollection.getShapes().iterator();
+
+    while (shape_iter.hasNext()) {
+      CreateShapeCommand shape = (CreateShapeCommand) shape_iter.next();
 
       if (shape.getEnd().getX() > start.getX() &&
           shape.getStart().getX() < end.getX() &&
           shape.getEnd().getY() > start.getY() &&
           shape.getStart().getY() < end.getY()) {
 
+        if (shape.shapeInfo.isSelected) {
+          shape_iter.remove();
+        }
+
         if (shape.shapeInfo.inGroup) {
           outline_shape = shape.shapeInfo.outlineShape;
-          System.out.println("in group");
           for (ShapeCollection sc : ListContainer.getGroupCollection()) {
-//            System.out.println("loop shape");
             if (sc.getShapes().contains(shape)) {
+              // N^2 performance, needs improvement
               for (CreateShapeCommand s : sc.getShapes()) {
                 selected.addShape(s);
               }
-              break;
-//              selected.addShape(shape);
-//              selected.addShape(outline_shape);
-//              tempList.addShape(outline_shape);
+              break; // leave loop once group is found
             }
           }
-        }
-
-        else {
+        } else {
           System.out.println("not in group");
           outline_shape = outlineSelected(shape);
           shape.shapeInfo.outlineShape = outline_shape;
           selected.addShape(shape);
         }
-
-
         selected.addShape(outline_shape);
         tempList.addShape(outline_shape);
       }
-
-
     }
 
     for (CreateShapeCommand cs : tempList.getShapes()) {
@@ -83,12 +78,15 @@ public class SelectCommand implements ICommand {
 
 // Hacked together way to remove outline
     if (selected.getShapes().size() == 0) {
+
       int count = 0;
       int size = shapeCollection.getShapes().size();
       while (count < size) {
         CreateShapeCommand s = shapeCollection.getShapes().get(count);
         if (s.shapeInfo.isSelected) {
+          System.out.println("here");
           shapeCollection.removeShape(s);
+          s.shapeInfo.pc.repaint();
           size--;
         } else {
           count++;

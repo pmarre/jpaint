@@ -1,10 +1,9 @@
 package model;
 
 import controller.CreateShapeCommand;
+import java.awt.Point;
 import model.persistence.ApplicationState;
 import view.interfaces.PaintCanvasBase;
-
-import java.awt.*;
 
 public class ShapeInfo {
 

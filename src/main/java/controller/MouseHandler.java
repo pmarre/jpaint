@@ -1,5 +1,8 @@
 package controller;
 
+import java.awt.Point;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import model.ListContainer;
 import model.MouseMode;
 import model.ShapeCollection;
@@ -7,32 +10,20 @@ import model.ShapeInfo;
 import model.persistence.ApplicationState;
 import view.interfaces.PaintCanvasBase;
 
-import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-
 public class MouseHandler extends MouseAdapter {
 
   ApplicationState appState;
   PaintCanvasBase paintCanvas;
-  Graphics2D g;
   ShapeCollection shapeCollection;
-  ArrayList<CreateShapeCommand> sl;
-  DrawShapeCommand cmd;
   ShapeCollection selected;
+  Point start, end;
 
   public MouseHandler(ApplicationState appState, PaintCanvasBase paintCanvas) {
     shapeCollection = ListContainer.getShapeList();
     selected = new ShapeCollection();
     this.appState = appState;
     this.paintCanvas = paintCanvas;
-//        this.g = g;
-//        this.shapeCollection = sl;
-//        this.selected = selected;
   }
-
-  Point start, end;
 
   public void mousePressed(MouseEvent event) {
     start = event.getPoint();
@@ -67,10 +58,8 @@ public class MouseHandler extends MouseAdapter {
 
     // END TEMP CODE
     ShapeInfo shapeInfo = new ShapeInfo(appState, paintCanvas, start, end, x, y, width, height);
-    CreateShapeCommand csc = null;
-    if (height < 1 && width < 1) {
-      return;
-    }
+    CreateShapeCommand csc;
+
     switch (MM) {
       case DRAW:
 
@@ -80,7 +69,6 @@ public class MouseHandler extends MouseAdapter {
         shapeCollection.addShape(csc);
         csc.execute();
         paintCanvas.repaint();
-        //CommandHistory.add(csc);
         break;
 
       case MOVE:
@@ -92,6 +80,7 @@ public class MouseHandler extends MouseAdapter {
         break;
 
       case SELECT:
+        System.out.println("Points : " + start + " " + end);
         SelectCommand c = new SelectCommand(start, end, paintCanvas, appState);
         c.execute();
         System.out.println("Mouse in select mode");

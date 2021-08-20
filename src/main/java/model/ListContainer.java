@@ -1,7 +1,6 @@
 package model;
 
 import controller.CreateShapeCommand;
-import java.awt.Shape;
 import java.util.ArrayList;
 import java.util.Stack;
 
@@ -39,7 +38,9 @@ public class ListContainer {
     return undoStack;
   }
 
-  public static ArrayList<ShapeCollection> getGroupCollection() { return groups;}
+  public static ArrayList<ShapeCollection> getGroupCollection() {
+    return groups;
+  }
 
 }
 
