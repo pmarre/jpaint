@@ -25,35 +25,35 @@ I ended up relying heavily on loops which is detrimental to performance. Part of
 
 The command pattern is my most widely used pattern that is implemented by 11 different classes. Essentially every click from the user is captured then delegated to the corresponding command which then executes. This pattern helps keep each class as simple as possible and keep each class focused on only one task. 
 
-
-
-
-
+![Command Pattern](https://github.com/pmarre/jpaint/blob/main/SE450_DesignPatterns/CommandPattern.png)
 
 ### Observer Pattern
 *Used By: ShapeCollection, IObserver*
 
 The observer pattern is used by my ShapeCollection class. In this pattern I register observers by adding them to a list and with every change (add, replace, delete, etc.) observers are notified and the canvas is redrawn. This solves the issues of having to individually call for the shape to be repainted in separate classes. 
 
+![Observer Pattern](https://github.com/pmarre/jpaint/blob/main/SE450_DesignPatterns/ObserverPattern.png)
+
 ### Singleton Pattern
 *Used By: GraphicsSingleton, PaintCanvas, DrawShapeCommand*
 
 The singleton pattern keeps only one Graphics2D alive at a time. Every time it is called, it creates a new instance and passes the new Graphics2D to the necessary classes ensuring that all shapes are being properly repainted. 
 
-
+![Singleton Pattern](https://github.com/pmarre/jpaint/blob/main/SE450_DesignPatterns/GraphicsSingleton.png)
 
 ### Strategy Pattern
 *Used By: DrawShapeCommand, DrawEllipseStrategy, DrawRectangleStrategy*
 
 The strategy pattern helps delegate work out to the correct classes. When DrawStrategy is called with a shape, the ShapeType is discovered and sent to the correct strategy class to handle the shape. This patterns keeps the actual shape strategy class to act independently of the draw shape command allowing multiple shapes to use the same draw shape strategy command.
 
+![Strategy Pattern](https://github.com/pmarre/jpaint/blob/main/SE450_DesignPatterns/StrategyPattern.png)
+
 ### Null Object Pattern 
 *Used By: NullObject, ICommand, GroupCommand*
 
 The null object pattern is used to prevent repetitive null checks and prevent any errors related to an object being null. When the constructor of the class has an object that is null the NullObject class is created which contains no code. This prevents the need to constantly check for null and if a method is called on a null object there is no error. 
 
-
-
+![Null Object Pattern](https://github.com/pmarre/jpaint/blob/main/SE450_DesignPatterns/NullObject.png)
 
 ## Success and Failures
 
